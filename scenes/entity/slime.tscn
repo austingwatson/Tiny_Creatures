@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/component/reproduce.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/state_machine/slime/slime_brain.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/component/movement.tscn" type="PackedScene" id=4]
+
+[node name="Slime" instance=ExtResource( 1 )]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color( 0.105882, 0.780392, 0.305882, 1 )
+
+[node name="Movement" parent="." index="2" instance=ExtResource( 4 )]
+speed = 25
+
+[node name="Reproduce" parent="." index="3" instance=ExtResource( 2 )]
+
+[node name="SlimeBrain" parent="." index="4" instance=ExtResource( 3 )]
+initial_state = "Idle"
+show_state_name = false
+slime = NodePath("..")
+movement = NodePath("../Movement")
+reproduce = NodePath("../Reproduce")
