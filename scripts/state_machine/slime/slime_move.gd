@@ -8,7 +8,7 @@ var movement
 onready var timer = $Timer
 
 
-func enter():
+func enter(_data):
 	movement.direction = Vector2(rand_range(-1, 1), rand_range(-1, 1))
 	timer.start(rand_range(slime_states.move_time.x, slime_states.move_time.y))
 	

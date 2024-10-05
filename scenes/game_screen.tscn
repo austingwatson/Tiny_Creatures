@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/player_controls.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/game_screen.gd" type="Script" id=2]
+[ext_resource path="res://scenes/entity/entity_manager.tscn" type="PackedScene" id=3]
+
+[node name="GameScreen" type="Node"]
+script = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="EntityManager" parent="." instance=ExtResource( 3 )]
+
+[node name="PlayerControls" parent="." instance=ExtResource( 1 )]
+entity_manager = NodePath("../EntityManager")
+camera = NodePath("../Camera2D")
+
+[connection signal="selected_creature" from="PlayerControls" to="." method="_on_PlayerControls_selected_creature"]

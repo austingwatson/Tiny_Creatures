@@ -6,14 +6,19 @@
 [ext_resource path="res://scenes/state_machine/slug/slug_brain.tscn" type="PackedScene" id=4]
 
 [node name="Slug" instance=ExtResource( 1 )]
+collision_layer = 2
+collision_mask = 1
 
-[node name="SlugBrain" parent="." index="1" instance=ExtResource( 4 )]
+[node name="ColorRect" parent="." index="0"]
+color = Color( 0.745098, 0.117647, 0.117647, 1 )
+
+[node name="SlugBrain" parent="." index="2" instance=ExtResource( 4 )]
 initial_state = "Idle"
 show_state_name = false
 slug = NodePath("..")
 movement = NodePath("../Movement")
 
-[node name="Movement" parent="." index="2" instance=ExtResource( 3 )]
+[node name="Movement" parent="." index="3" instance=ExtResource( 3 )]
 speed = 10
 
-[node name="Trail" parent="." index="3" instance=ExtResource( 2 )]
+[node name="Trail" parent="." index="4" instance=ExtResource( 2 )]

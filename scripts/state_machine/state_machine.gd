@@ -8,16 +8,16 @@ onready var state_name = $StateName
 
 
 func init():
-	current_state.enter()
+	current_state.enter({})
 	state_name.text = initial_state
 	state_name.visible = show_state_name
 
 
-func enter_state(state):
+func enter_state(state, data = {}):
 	current_state.leave()
 	current_state = get_node(state)
 	state_name.text = state
-	current_state.enter()
+	current_state.enter(data)
 	
 
 func _physics_process(delta):

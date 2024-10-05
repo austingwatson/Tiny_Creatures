@@ -1,11 +1,27 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/component/movement.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/component/reproduce.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/component/detection.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/state_machine/amoeba/amoeba_brain.tscn" type="PackedScene" id=5]
 
 [node name="Amoeba" instance=ExtResource( 1 )]
+collision_layer = 8
+collision_mask = 5
 
-[node name="Movement" parent="." index="2" instance=ExtResource( 2 )]
+[node name="AmoebaBrain" parent="." index="2" instance=ExtResource( 5 )]
+initial_state = "Idle"
+amoeba = NodePath("..")
+movement = NodePath("../Movement")
+detection = NodePath("../Detection")
 
-[node name="Reproduce" parent="." index="3" instance=ExtResource( 3 )]
+[node name="Movement" parent="." index="3" instance=ExtResource( 2 )]
+speed = 10
+
+[node name="Reproduce" parent="." index="4" instance=ExtResource( 3 )]
+
+[node name="Detection" parent="." index="5" instance=ExtResource( 4 )]
+collision_layer = 8
+collision_mask = 4
+detection_size = 100

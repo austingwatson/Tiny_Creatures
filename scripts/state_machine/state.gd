@@ -3,7 +3,7 @@ extends Node
 onready var state_machine = get_parent()
 
 
-func enter():
+func enter(_data):
 	pass
 	
 

@@ -15,10 +15,10 @@ onready var level = get_parent().level
 func _ready():
 	match entity:
 		Entity.SLUG:
-			entity_scene = EntityScenes.slug_scene
+			entity_scene = PackedScenes.slug_scene
 		Entity.SLIME:
-			entity_scene = EntityScenes.slime_scene
+			entity_scene = PackedScenes.slime_scene
 
 
 func reproduce():
-	entity_manager.add_entity(get_parent().duplicate(), get_parent().global_position + Vector2(0, 16), level)
+	entity_manager.add_entity(entity_scene.instance(), get_parent().global_position + Vector2(0, 16), level)

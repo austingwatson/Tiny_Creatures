@@ -8,7 +8,7 @@ var movement
 onready var timer = $Timer
 
 
-func enter():
+func enter(_data):
 	var rng = randi() % 4
 	match rng:
 		0:

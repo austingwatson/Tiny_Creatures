@@ -8,7 +8,7 @@ var reproduce
 onready var timer = $Timer
 
 
-func enter():
+func enter(_data):
 	timer.start(rand_range(slime_states.reproduce_time.x, slime_states.reproduce_time.y))
 
 

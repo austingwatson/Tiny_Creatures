@@ -5,7 +5,7 @@ const slime_states = preload("res://resources/slime/slime.tres")
 onready var timer = $Timer
 
 
-func enter():
+func enter(_data):
 	timer.start(rand_range(slime_states.idle_time.x, slime_states.idle_time.y))
 
 

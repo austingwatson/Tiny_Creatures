@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Tiny Creatures"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/title_screen.tscn"
 config/icon="res://textures/icon.png"
 
 [audio]
@@ -36,7 +36,7 @@ default_bus_layout="res://resources/default_bus_layout.tres"
 
 [autoload]
 
-EntityScenes="*res://scripts/entity/entity_scenes.gd"
+PackedScenes="*res://scripts/global/packed_scenes.gd"
 
 [debug]
 
@@ -97,6 +97,18 @@ prev_creature={
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"canceled":false,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
+drag_camera={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="wall"
+2d_physics/layer_2="slug"
+2d_physics/layer_3="slime"
+2d_physics/layer_4="amoeba"
 
 [physics]
 

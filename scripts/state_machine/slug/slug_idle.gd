@@ -5,7 +5,7 @@ const slug_states = preload("res://resources/slug/slug.tres")
 onready var timer = $Timer
 
 
-func enter():
+func enter(_data):
 	timer.start(rand_range(slug_states.idle_time.x, slug_states.idle_time.y))
 
 
