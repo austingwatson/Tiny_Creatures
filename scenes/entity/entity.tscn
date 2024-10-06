@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/entity/entity.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 1.0
+radius = 6.0
 
 [node name="Entity" type="KinematicBody2D"]
 z_index = 1

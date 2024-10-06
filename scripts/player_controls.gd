@@ -59,4 +59,6 @@ func drop_creature(spawn_position):
 			entity_manager.add_entity(PackedScenes.slime_scene.instance(), spawn_position, level)
 		juice.Creature.AMOEBA:
 			entity_manager.add_entity(PackedScenes.amoeba_scene.instance(), spawn_position, level)
+		juice.Creature.SCARY_BOY:
+			entity_manager.add_entity(PackedScenes.scary_boy_scene.instance(), spawn_position, level)
 	dropper_animating = false

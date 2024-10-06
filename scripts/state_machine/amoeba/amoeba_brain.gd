@@ -13,6 +13,9 @@ const amoeba_stats = preload("res://resources/amoeba_stats/amoeba_stats.tres")
 
 
 func _ready():
+	detection.call_deferred("disable")
+	lunge.call_deferred("disable")
+	
 	hunger.max_hunger = amoeba_stats.get_random_hunger()
 	hunger.reset_hunger()
 	hunger.start_timer(amoeba_stats.get_random_food_time())
@@ -45,6 +48,14 @@ func _ready():
 	var dead = $Dead
 	dead.amoeba = amoeba
 	dead.animated_sprite = animated_sprite
+	
+	var wander = $Wander
+	wander.amoeba = amoeba
+	wander.movement = movement
+	wander.animated_sprite = animated_sprite
+	
+	var lunge_cooldown = $LungeCooldown
+	lunge_cooldown.animated_sprite = animated_sprite
 	
 	init()
 

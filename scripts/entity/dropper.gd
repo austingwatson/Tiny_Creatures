@@ -9,9 +9,11 @@ const follow_speed = 4.0
 export(Texture) var slug_liquid
 export(Texture) var slime_liquid
 export(Texture) var amoeba_liquid
+export(Texture) var scary_boy_liquid
 export(Texture) var slug_drop
 export(Texture) var slime_drop
 export(Texture) var amoeba_drop
+export(Texture) var scary_boy_drop
 
 onready var liquid = $Liquid
 onready var pump = $Pump
@@ -39,6 +41,11 @@ func _process(delta):
 
 func switch_creature(creature):
 	match creature:
+		-1:
+			liquid.texture_progress = null
+			liquid.value = 0
+			pump.position = Vector2(pump.position.x, pump_start_pos.y)
+			return
 		juice.Creature.SLUG:
 			liquid.texture_progress = slug_liquid
 			liquid.max_value = juice.slug_max
@@ -54,6 +61,11 @@ func switch_creature(creature):
 			liquid.max_value = juice.amoeba_max
 			liquid.value = juice.amoeba
 			drop.texture = amoeba_drop
+		juice.Creature.SCARY_BOY:
+			liquid.texture_progress = scary_boy_liquid
+			liquid.max_value = juice.scary_boy_max
+			liquid.value = juice.scary_boy
+			drop.texture = scary_boy_drop
 	pump.position = Vector2(pump.position.x, pump_start_pos.y - (liquid.texture_progress.get_size().y * liquid.ratio))
 	if liquid.value == 0:
 		modulate.a = 0.5

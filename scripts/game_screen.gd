@@ -11,9 +11,9 @@ onready var hud = $HUD
 	
 
 func reset():
-	juice.init_juice(3, 5, 1)
+	juice.init_juice(3, 5, 1, 4)
 	hud.drop_creature()
-	dropper.switch_creature(player_controls.current_creature)
+	dropper.switch_creature(-1)
 	
 	if level != null:
 		level.queue_free()
@@ -98,3 +98,7 @@ func _on_HUD_amoeba_selected():
 func _on_task_done():
 	var main = get_parent()
 	main.change_scene(main.Scene.TITLE_SCREEN)
+
+
+func _on_HUD_scary_boy_selected():
+	player_controls.change_creature(juice.Creature.SCARY_BOY)

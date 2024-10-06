@@ -14,11 +14,13 @@ func enter(data):
 	slime = data["slime"]
 	animated_sprite.play("move")
 	lunge.connect("body_entered", self, "_on_body_entered")
+	lunge.enable()
 	
 
 func leave():
 	movement.direction = Vector2.ZERO
 	lunge.disconnect("body_entered", self, "_on_body_entered")
+	lunge.disable()
 
 
 func update(_delta):

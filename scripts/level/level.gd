@@ -7,7 +7,6 @@ onready var layer1 = $Layer1
 onready var layer2 = $Layer2
 onready var new_tile_sound = $NewTileSound
 onready var change_tile_sound = $ChangeTileSound
-onready var task = $Task
 
 
 func _ready():
@@ -20,12 +19,8 @@ func set_tile(global_position: Vector2, tile: int):
 	var cell = layer2.get_cell(map_position.x, map_position.y)
 	if cell == Tile.NONE:
 		new_tile_sound.play()
-		if tile == Tile.SLUG_TRAIL:
-			task.add_current(1)
 	elif tile != cell:
 		change_tile_sound.play()
-		if tile == Tile.SLUG_TRAIL:
-			task.add_current(1)
 	layer2.set_cell(map_position.x, map_position.y, tile)
 	
 
@@ -66,9 +61,9 @@ func get_petri_dish(entities):
 	return tiles
 
 
-func _on_Task_task_done():
+func all_tasks_done():
 	emit_signal("task_done")
 
 
-func _on_Task_task_failed():
+func any_task_failed():
 	emit_signal("task_failed")

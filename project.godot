@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://resources/juice/juice.gd"
 }, {
 "base": "Resource",
+"class": "ScaryBoyStats",
+"language": "GDScript",
+"path": "res://resources/scary_boy_stats/scary_boy_stats.gd"
+}, {
+"base": "Resource",
 "class": "SlimeStats",
 "language": "GDScript",
 "path": "res://resources/slime_stats/slime_stats.gd"
@@ -37,6 +42,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AmoebaStats": "",
 "Juice": "",
+"ScaryBoyStats": "",
 "SlimeStats": "",
 "SlugStats": "",
 "Task": ""
@@ -184,6 +190,7 @@ follow={
 2d_physics/layer_2="slug"
 2d_physics/layer_3="slime"
 2d_physics/layer_4="amoeba"
+2d_physics/layer_5="scary_boy"
 
 [physics]
 

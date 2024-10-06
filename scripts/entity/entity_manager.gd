@@ -10,4 +10,4 @@ func add_entity(entity, global_position, level):
 	entity.entity_manager = self
 	entity.level = level
 	entity.global_position = global_position
-	add_child(entity)
+	call_deferred("add_child", entity)

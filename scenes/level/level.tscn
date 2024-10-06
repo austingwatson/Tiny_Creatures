@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://textures/level/pertri_frame.png" type="Texture" id=1]
 [ext_resource path="res://scripts/level/level.gd" type="Script" id=2]
 [ext_resource path="res://resources/tiles.tres" type="TileSet" id=3]
 [ext_resource path="res://sounds/tile_change.wav" type="AudioStream" id=4]
 [ext_resource path="res://sounds/new_tile.wav" type="AudioStream" id=5]
-[ext_resource path="res://scenes/ui/task.tscn" type="PackedScene" id=6]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 2 )
@@ -57,11 +56,3 @@ area_mask = 0
 [node name="ChangeTileSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 area_mask = 0
-
-[node name="Task" parent="." instance=ExtResource( 6 )]
-task_name = "Slug Trail"
-task_description = "Cover 25% of the petri dish with slug slime."
-needed = 5
-
-[connection signal="task_done" from="Task" to="." method="_on_Task_task_done"]
-[connection signal="task_failed" from="Task" to="." method="_on_Task_task_failed"]

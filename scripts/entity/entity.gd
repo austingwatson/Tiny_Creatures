@@ -1,13 +1,6 @@
 extends KinematicBody2D
 
-enum Creature {
-	NONE,
-	SLUG,
-	SLIME,
-	AMOEBA,
-}
-
-export(Creature) var creature = Creature.NONE
+export(Juice.Creature) var creature = Juice.Creature.SLUG
 
 var entity_manager
 var level
