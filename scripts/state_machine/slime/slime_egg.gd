@@ -15,6 +15,7 @@ func enter(_data):
 
 func leave():
 	slime.level.set_tile(slime.global_position, Tile.SLIME)
+	SoundPlayer.play_hatch_sound()
 
 
 func _on_Timer_timeout():

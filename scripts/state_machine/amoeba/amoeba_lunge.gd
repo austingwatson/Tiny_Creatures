@@ -42,4 +42,5 @@ func _on_body_entered(body):
 		return
 	body.queue_free()
 	hit_target = true
+	chomp.hit()
 	state_machine.enter_state("Reproduce")

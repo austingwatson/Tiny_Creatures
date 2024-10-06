@@ -10,6 +10,10 @@ onready var timer = $Timer
 func enter(_data):
 	animated_sprite.play("egg")
 	timer.start(amoeba_stats.get_random_egg_time())
+	
+
+func leave():
+	SoundPlayer.play_hatch_sound()
 
 
 func _on_Timer_timeout():

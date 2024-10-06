@@ -50,6 +50,7 @@ default_bus_layout="res://resources/default_bus_layout.tres"
 
 PackedScenes="*res://scripts/global/packed_scenes.gd"
 Tile="*res://scripts/level/tile.gd"
+SoundPlayer="*res://scenes/sound_player.tscn"
 
 [debug]
 
@@ -91,6 +92,10 @@ texture={
 "size_limit": 0,
 "stream": false,
 "svg/scale": 1.0
+}
+mp3={
+"loop": false,
+"loop_offset": 0
 }
 
 [input]

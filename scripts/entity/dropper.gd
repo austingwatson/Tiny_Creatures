@@ -4,6 +4,7 @@ signal dropper_done
 
 const juice = preload("res://resources/juice/juice.tres")
 const squeeze_speed = 0.25
+const follow_speed = 4.0
 
 export(Texture) var slug_liquid
 export(Texture) var slime_liquid
@@ -16,6 +17,10 @@ onready var liquid = $Liquid
 onready var pump = $Pump
 onready var pump_start_pos = pump.position
 onready var drop = $Drop
+onready var change_sound = $ChangeSound
+onready var drop_sound = $DropSound
+
+var dropping = false
 
 
 func _ready():
@@ -23,9 +28,12 @@ func _ready():
 	drop.texture = slug_drop
 
 
-func _process(_delta):
-	global_position = get_global_mouse_position()
-	global_position.y -= 16
+func _process(delta):
+	if dropping:
+		return
+	
+	var mouse = get_global_mouse_position() - Vector2(0, 16)
+	global_position = global_position.linear_interpolate(mouse, delta * follow_speed)
 	
 
 func switch_creature(creature):
@@ -50,9 +58,13 @@ func switch_creature(creature):
 		modulate.a = 0.5
 	else:
 		modulate.a = 1.0
+	if not change_sound.playing:
+		change_sound.play()
 	
 
 func drop_creature():
+	dropping = true
+	drop_sound.play()
 	create_tween().tween_property(liquid, "value", liquid.value - 1.0, squeeze_speed)
 	drop.visible = true
 	drop.position = Vector2.ZERO
@@ -66,3 +78,4 @@ func drop_creature():
 		modulate.a = 0.5
 	else:
 		modulate.a = 1.0
+	dropping = false

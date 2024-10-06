@@ -12,6 +12,7 @@ var entity_scene
 
 onready var entity_manager = get_parent().entity_manager
 onready var level = get_parent().level
+onready var lay_egg_sound = $LayEggSound
 
 
 func _ready():
@@ -28,3 +29,4 @@ func reproduce():
 	var x = rand_range(-4, 4)
 	var y = rand_range(-4, 4)
 	entity_manager.add_entity(entity_scene.instance(), get_parent().global_position + Vector2(x, y), level)
+	lay_egg_sound.play()

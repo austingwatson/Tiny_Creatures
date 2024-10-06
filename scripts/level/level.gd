@@ -2,6 +2,8 @@ extends Node2D
 
 onready var layer1 = $Layer1
 onready var layer2 = $Layer2
+onready var new_tile_sound = $NewTileSound
+onready var change_tile_sound = $ChangeTileSound
 
 
 func _ready():
@@ -13,6 +15,11 @@ func _ready():
 func set_tile(global_position: Vector2, tile: int):
 	var local_position = layer2.to_local(global_position)
 	var map_position = layer2.world_to_map(local_position)
+	var cell = layer2.get_cell(map_position.x, map_position.y)
+	if cell == -1:
+		new_tile_sound.play()
+	elif tile != cell:
+		change_tile_sound.play()
 	layer2.set_cell(map_position.x, map_position.y, tile)
 	
 
