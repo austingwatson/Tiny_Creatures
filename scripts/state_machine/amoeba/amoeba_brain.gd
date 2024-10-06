@@ -1,14 +1,37 @@
 extends "res://scripts/state_machine/state_machine.gd"
 
-export(NodePath) onready var amoeba = get_node(amoeba) as Area2D
+export(NodePath) onready var amoeba = get_node(amoeba) as KinematicBody2D
 export(NodePath) onready var movement = get_node(movement) as Node
 export(NodePath) onready var detection = get_node(detection) as Area2D
+export(NodePath) onready var animated_sprite = get_node(animated_sprite) as AnimatedSprite
+export(NodePath) onready var lunge = get_node(lunge) as Area2D
+export(NodePath) onready var chomp = get_node(chomp) as Area2D
+export(NodePath) onready var reproduce = get_node(reproduce) as Node2D
 
 
 func _ready():
-	var idle = $Idle
-	detection.connect("area_entered", idle, "_on_area_entered")
+	var egg = $Egg
+	egg.animated_sprite = animated_sprite
 	
-	var move_to = $MoveTo
-	move_to.amoeba = amoeba
-	move_to.movement = movement
+	var idle = $Idle
+	idle.detection = detection
+	idle.animated_sprite = animated_sprite
+	
+	var chase = $Chase
+	chase.amoeba = amoeba
+	chase.movement = movement
+	chase.animated_sprite = animated_sprite
+	chase.lunge = lunge
+	
+	var lunge = $Lunge
+	lunge.amoeba = amoeba
+	lunge.movement = movement
+	lunge.animated_sprite = animated_sprite
+	lunge.chomp = chomp
+	
+	var reproduce = $Reproduce
+	reproduce.amoeba = amoeba
+	reproduce.reproduce = self.reproduce
+	reproduce.animated_sprite = animated_sprite
+	
+	init()

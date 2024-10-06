@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/player_controls.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/game_screen.gd" type="Script" id=2]
 [ext_resource path="res://scenes/entity/entity_manager.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/ui/hud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/entity/dropper.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/test_petri_dish.tscn" type="PackedScene" id=6]
 
 [node name="GameScreen" type="Node"]
 script = ExtResource( 2 )
@@ -12,8 +15,23 @@ current = true
 
 [node name="EntityManager" parent="." instance=ExtResource( 3 )]
 
+[node name="Dropper" parent="." instance=ExtResource( 5 )]
+
 [node name="PlayerControls" parent="." instance=ExtResource( 1 )]
 entity_manager = NodePath("../EntityManager")
 camera = NodePath("../Camera2D")
 
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="TestPetriDish" parent="." instance=ExtResource( 6 )]
+
+[connection signal="dropper_done" from="Dropper" to="." method="_on_Dropper_dropper_done"]
+[connection signal="drop_creature" from="PlayerControls" to="." method="_on_PlayerControls_drop_creature"]
 [connection signal="selected_creature" from="PlayerControls" to="." method="_on_PlayerControls_selected_creature"]
+[connection signal="amoeba_selected" from="HUD" to="." method="_on_HUD_amoeba_selected"]
+[connection signal="slime_selected" from="HUD" to="." method="_on_HUD_slime_selected"]
+[connection signal="slug_selected" from="HUD" to="." method="_on_HUD_slug_selected"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -1,10 +1,11 @@
 [gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://resources/slime/slime.gd" type="Script" id=1]
+[ext_resource path="res://resources/slime_stats/slime_stats.gd" type="Script" id=1]
 
 [resource]
 script = ExtResource( 1 )
 speed = 0
+egg_time = Vector2( 0, 5 )
 idle_time = Vector2( 0, 2 )
 move_time = Vector2( 0, 5 )
 reproduce_time = Vector2( 0, 3 )

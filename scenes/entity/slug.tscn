@@ -1,22 +1,82 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/component/trail.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/component/movement.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/state_machine/slug/slug_brain.tscn" type="PackedScene" id=4]
+[ext_resource path="res://textures/entity/drooplets_spritesheet.png" type="Texture" id=5]
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 16, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 32, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 5 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "egg",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "move",
+"speed": 6.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=6]
+resource_local_to_scene = true
+extents = Vector2( 7.5, 4 )
 
 [node name="Slug" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 1
+creature = 1
 
-[node name="ColorRect" parent="." index="0"]
-color = Color( 0.745098, 0.117647, 0.117647, 1 )
+[node name="AnimatedSprite" parent="." index="0"]
+position = Vector2( -3, -9 )
+frames = SubResource( 5 )
+animation = "egg"
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( -3.5, -5 )
+shape = SubResource( 6 )
 
 [node name="SlugBrain" parent="." index="2" instance=ExtResource( 4 )]
-initial_state = "Idle"
+position = Vector2( 0, -9 )
 show_state_name = false
 slug = NodePath("..")
 movement = NodePath("../Movement")
+animated_sprite = NodePath("../AnimatedSprite")
+trail = NodePath("../Trail")
 
 [node name="Movement" parent="." index="3" instance=ExtResource( 3 )]
 speed = 10

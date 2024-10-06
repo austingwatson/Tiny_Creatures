@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/component/detection.gd" type="Script" id=1]
+[ext_resource path="res://scripts/component/lunge.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 
-[node name="Detection" type="Area2D"]
+[node name="Lunge" type="Area2D"]
 monitorable = false
 script = ExtResource( 1 )
 

@@ -1,27 +1,38 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/state_machine/state_machine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/state_machine/state.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/state_machine/slug/slug_idle.gd" type="Script" id=3]
 [ext_resource path="res://scripts/state_machine/slug/slug_move.gd" type="Script" id=4]
 [ext_resource path="res://scripts/state_machine/slug/slug_brain.gd" type="Script" id=5]
+[ext_resource path="res://scripts/state_machine/slug/slug_egg.gd" type="Script" id=6]
 
 [node name="SlugBrain" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
+initial_state = "Egg"
 slug = NodePath("")
 movement = NodePath("")
+animated_sprite = NodePath("")
+trail = NodePath("")
 
-[node name="Idle" parent="." index="1" instance=ExtResource( 2 )]
+[node name="Egg" parent="." index="1" instance=ExtResource( 2 )]
+script = ExtResource( 6 )
+
+[node name="Timer" type="Timer" parent="Egg" index="0"]
+one_shot = true
+
+[node name="Idle" parent="." index="2" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="Idle" index="0"]
 one_shot = true
 
-[node name="Move" parent="." index="2" instance=ExtResource( 2 )]
+[node name="Move" parent="." index="3" instance=ExtResource( 2 )]
 script = ExtResource( 4 )
 
 [node name="Timer" type="Timer" parent="Move" index="0"]
 one_shot = true
 
+[connection signal="timeout" from="Egg/Timer" to="Egg" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Idle/Timer" to="Idle" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Move/Timer" to="Move" method="_on_Timer_timeout"]
