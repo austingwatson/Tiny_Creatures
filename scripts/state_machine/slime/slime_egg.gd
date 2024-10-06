@@ -3,19 +3,18 @@ extends "res://scripts/state_machine/state.gd"
 const slime_stats = preload("res://resources/slime_stats/slime_stats.tres")
 
 var slime
-var reproduce
 var animated_sprite: AnimatedSprite
 
 onready var timer = $Timer
 
 
 func enter(_data):
-	animated_sprite.play("reproduce")
-	timer.start(rand_range(slime_stats.reproduce_time.x, slime_stats.reproduce_time.y))
+	animated_sprite.play("egg")
+	timer.start(rand_range(slime_stats.egg_time.x, slime_stats.egg_time.y))
 
 
 func leave():
-	reproduce.reproduce()
+	slime.level.set_tile(slime.global_position, Tile.SLIME)
 
 
 func _on_Timer_timeout():

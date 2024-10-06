@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://resources/amoeba_stats/amoeba_stats.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+egg_time = Vector2( 2, 8 )
+reproduce_time = Vector2( 10, 30 )

@@ -1,27 +1,141 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/component/movement.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/component/reproduce.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/component/detection.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/state_machine/amoeba/amoeba_brain.tscn" type="PackedScene" id=5]
+[ext_resource path="res://textures/entity/drooplets_spritesheet.png" type="Texture" id=6]
+[ext_resource path="res://scenes/component/lunge.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/component/chomp.tscn" type="PackedScene" id=8]
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 6 )
+region = Rect2( 112, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 6 )
+region = Rect2( 16, 80, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 6 )
+region = Rect2( 32, 80, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 6 )
+region = Rect2( 16, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 6 )
+region = Rect2( 128, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 6 )
+region = Rect2( 144, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 6 )
+region = Rect2( 32, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 6 )
+region = Rect2( 48, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 6 )
+region = Rect2( 64, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 6 )
+region = Rect2( 80, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 6 )
+region = Rect2( 48, 80, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 16 ) ],
+"loop": false,
+"name": "crouch",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "egg",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 8 ), SubResource( 9 ) ],
+"loop": false,
+"name": "lunge",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "move",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 17 ) ],
+"loop": true,
+"name": "reproduce",
+"speed": 6.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=6]
+resource_local_to_scene = true
+extents = Vector2( 7, 4.5 )
 
 [node name="Amoeba" instance=ExtResource( 1 )]
 collision_layer = 8
-collision_mask = 5
+collision_mask = 1
+creature = 3
+
+[node name="AnimatedSprite" parent="." index="0"]
+position = Vector2( 0, -4 )
+frames = SubResource( 5 )
+animation = "reproduce"
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0, -0.5 )
+shape = SubResource( 6 )
 
 [node name="AmoebaBrain" parent="." index="2" instance=ExtResource( 5 )]
-initial_state = "Idle"
+position = Vector2( 0, -4 )
+show_state_name = false
 amoeba = NodePath("..")
 movement = NodePath("../Movement")
 detection = NodePath("../Detection")
+animated_sprite = NodePath("../AnimatedSprite")
+lunge = NodePath("../Lunge")
+chomp = NodePath("../Chomp")
+reproduce = NodePath("../Reproduce")
 
 [node name="Movement" parent="." index="3" instance=ExtResource( 2 )]
-speed = 10
+speed = 30
 
 [node name="Reproduce" parent="." index="4" instance=ExtResource( 3 )]
+entity = 2
 
 [node name="Detection" parent="." index="5" instance=ExtResource( 4 )]
 collision_layer = 8
 collision_mask = 4
 detection_size = 100
+
+[node name="Lunge" parent="." index="6" instance=ExtResource( 7 )]
+collision_layer = 8
+collision_mask = 4
+lunge_size = 25
+
+[node name="Chomp" parent="." index="7" instance=ExtResource( 8 )]
+collision_layer = 8
+collision_mask = 4
+chomp_range = 8

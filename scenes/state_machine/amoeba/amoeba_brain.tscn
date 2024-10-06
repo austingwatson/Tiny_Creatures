@@ -1,19 +1,45 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/state_machine/state_machine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/state_machine/state.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/state_machine/amoeba/amoeba_idle.gd" type="Script" id=3]
 [ext_resource path="res://scripts/state_machine/amoeba/amoeba_brain.gd" type="Script" id=4]
-[ext_resource path="res://scripts/state_machine/amoeba/amoeba_move_to.gd" type="Script" id=5]
+[ext_resource path="res://scripts/state_machine/amoeba/amoeba_chase.gd" type="Script" id=5]
+[ext_resource path="res://scripts/state_machine/amoeba/amoeba_egg.gd" type="Script" id=6]
+[ext_resource path="res://scripts/state_machine/amoeba/amoeba_lunge.gd" type="Script" id=7]
+[ext_resource path="res://scripts/state_machine/amoeba/amoeba_reproduce.gd" type="Script" id=8]
 
 [node name="AmoebaBrain" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
+initial_state = "Egg"
 amoeba = NodePath("")
 movement = NodePath("")
 detection = NodePath("")
+animated_sprite = NodePath("")
+lunge = NodePath("")
+chomp = NodePath("")
+reproduce = NodePath("")
 
-[node name="Idle" parent="." index="1" instance=ExtResource( 2 )]
+[node name="Egg" parent="." index="1" instance=ExtResource( 2 )]
+script = ExtResource( 6 )
+
+[node name="Timer" type="Timer" parent="Egg" index="0"]
+one_shot = true
+
+[node name="Idle" parent="." index="2" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 
-[node name="MoveTo" parent="." index="2" instance=ExtResource( 2 )]
+[node name="Chase" parent="." index="3" instance=ExtResource( 2 )]
 script = ExtResource( 5 )
+
+[node name="Lunge" parent="." index="4" instance=ExtResource( 2 )]
+script = ExtResource( 7 )
+
+[node name="Reproduce" parent="." index="5" instance=ExtResource( 2 )]
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="Reproduce" index="0"]
+one_shot = true
+
+[connection signal="timeout" from="Egg/Timer" to="Egg" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Reproduce/Timer" to="Reproduce" method="_on_Timer_timeout"]
