@@ -2,19 +2,24 @@ extends "res://scripts/state_machine/state.gd"
 
 const slime_stats = preload("res://resources/slime_stats/slime_stats.tres")
 
+var slime
 var animated_sprite: AnimatedSprite
+var leave_slime = true
 
 onready var timer = $Timer
 
 
 func enter(_data):
-	timer.start(rand_range(slime_stats.idle_time.x, slime_stats.idle_time.y))
-	animated_sprite.play("idle")
+	animated_sprite.play("dead")
+	timer.start(slime_stats.get_random_dead_time())
 	
 
 func leave():
 	timer.stop()
 
 
+
 func _on_Timer_timeout():
-	state_machine.enter_state("Move")
+	if leave_slime:
+		slime.level.set_tile(slime.global_position, Tile.SLIME)
+	slime.queue_free()

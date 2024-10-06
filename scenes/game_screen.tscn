@@ -5,7 +5,7 @@
 [ext_resource path="res://scenes/entity/entity_manager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/ui/hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/entity/dropper.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/test_petri_dish.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/test/test_petri_dish.tscn" type="PackedScene" id=6]
 
 [node name="GameScreen" type="Node"]
 script = ExtResource( 2 )

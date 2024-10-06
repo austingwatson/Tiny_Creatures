@@ -1,5 +1,7 @@
 extends "res://scripts/state_machine/state.gd"
 
+const amoeba_stats = preload("res://resources/amoeba_stats/amoeba_stats.tres")
+
 var amoeba
 var movement
 var slime
@@ -8,6 +10,7 @@ var lunge
 
 
 func enter(data):
+	movement.speed = amoeba_stats.base_speed
 	slime = data["slime"]
 	animated_sprite.play("move")
 	lunge.connect("body_entered", self, "_on_body_entered")

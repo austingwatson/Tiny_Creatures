@@ -1,25 +1,31 @@
 extends Node2D
 
+signal task_done
+signal task_failed
+
 onready var layer1 = $Layer1
 onready var layer2 = $Layer2
 onready var new_tile_sound = $NewTileSound
 onready var change_tile_sound = $ChangeTileSound
+onready var task = $Task
 
 
 func _ready():
 	randomize()
-	
-	get_tile(self.global_position)
 
 
 func set_tile(global_position: Vector2, tile: int):
 	var local_position = layer2.to_local(global_position)
 	var map_position = layer2.world_to_map(local_position)
 	var cell = layer2.get_cell(map_position.x, map_position.y)
-	if cell == -1:
+	if cell == Tile.NONE:
 		new_tile_sound.play()
+		if tile == Tile.SLUG_TRAIL:
+			task.add_current(1)
 	elif tile != cell:
 		change_tile_sound.play()
+		if tile == Tile.SLUG_TRAIL:
+			task.add_current(1)
 	layer2.set_cell(map_position.x, map_position.y, tile)
 	
 
@@ -58,3 +64,11 @@ func get_petri_dish(entities):
 		tiles[map_position.x][map_position.y] = entity.creature
 	
 	return tiles
+
+
+func _on_Task_task_done():
+	emit_signal("task_done")
+
+
+func _on_Task_task_failed():
+	emit_signal("task_failed")

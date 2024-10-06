@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/component/movement.tscn" type="PackedScene" id=2]
@@ -8,10 +8,15 @@
 [ext_resource path="res://textures/entity/drooplets_spritesheet.png" type="Texture" id=6]
 [ext_resource path="res://scenes/component/lunge.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/component/chomp.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/component/hunger.tscn" type="PackedScene" id=9]
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 6 )
 region = Rect2( 112, 64, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 6 )
+region = Rect2( 144, 80, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 6 )
@@ -57,12 +62,21 @@ region = Rect2( 80, 64, 16, 16 )
 atlas = ExtResource( 6 )
 region = Rect2( 48, 80, 16, 16 )
 
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 6 )
+region = Rect2( 64, 80, 16, 16 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ SubResource( 16 ) ],
 "loop": false,
 "name": "crouch",
 "speed": 1.0
+}, {
+"frames": [ SubResource( 19 ) ],
+"loop": true,
+"name": "dead",
+"speed": 6.0
 }, {
 "frames": [ SubResource( 10 ), SubResource( 11 ) ],
 "loop": true,
@@ -84,29 +98,24 @@ animations = [ {
 "name": "move",
 "speed": 6.0
 }, {
-"frames": [ SubResource( 17 ) ],
+"frames": [ SubResource( 17 ), SubResource( 18 ) ],
 "loop": true,
 "name": "reproduce",
 "speed": 6.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=6]
-resource_local_to_scene = true
-extents = Vector2( 7, 4.5 )
-
 [node name="Amoeba" instance=ExtResource( 1 )]
 collision_layer = 8
-collision_mask = 1
+collision_mask = 15
 creature = 3
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -4 )
 frames = SubResource( 5 )
-animation = "reproduce"
+animation = "move"
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2( 0, -0.5 )
-shape = SubResource( 6 )
+position = Vector2( 2, -2 )
 
 [node name="AmoebaBrain" parent="." index="2" instance=ExtResource( 5 )]
 position = Vector2( 0, -4 )
@@ -118,9 +127,9 @@ animated_sprite = NodePath("../AnimatedSprite")
 lunge = NodePath("../Lunge")
 chomp = NodePath("../Chomp")
 reproduce = NodePath("../Reproduce")
+hunger = NodePath("../Hunger")
 
 [node name="Movement" parent="." index="3" instance=ExtResource( 2 )]
-speed = 30
 
 [node name="Reproduce" parent="." index="4" instance=ExtResource( 3 )]
 entity = 2
@@ -139,3 +148,7 @@ lunge_size = 25
 collision_layer = 8
 collision_mask = 4
 chomp_range = 8
+
+[node name="Hunger" parent="." index="8" instance=ExtResource( 9 )]
+
+[connection signal="dead" from="Hunger" to="AmoebaBrain" method="_on_Hunger_dead"]

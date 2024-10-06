@@ -1,6 +1,6 @@
 extends Node2D
 
-signal dropper_done
+signal dropper_done(spawn_position)
 
 const juice = preload("res://resources/juice/juice.tres")
 const squeeze_speed = 0.25
@@ -19,6 +19,7 @@ onready var pump_start_pos = pump.position
 onready var drop = $Drop
 onready var change_sound = $ChangeSound
 onready var drop_sound = $DropSound
+onready var spawn_position = $SpawnPosition
 
 var dropping = false
 
@@ -58,7 +59,7 @@ func switch_creature(creature):
 		modulate.a = 0.5
 	else:
 		modulate.a = 1.0
-	if not change_sound.playing:
+	if not change_sound.playing and liquid.value > 0:
 		change_sound.play()
 	
 
@@ -73,7 +74,7 @@ func drop_creature():
 	var target_pump_pos = Vector2(pump.position.x, pump_start_pos.y - (liquid.texture_progress.get_size().y * (ratio)))
 	yield(create_tween().tween_property(pump, "position", target_pump_pos, squeeze_speed), "finished")
 	drop.visible = false
-	emit_signal("dropper_done")
+	emit_signal("dropper_done", spawn_position.global_position + Vector2(0, 16))
 	if liquid.value == 0:
 		modulate.a = 0.5
 	else:

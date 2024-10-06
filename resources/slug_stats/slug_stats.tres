@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
+base_speed = 20
 egg_time = Vector2( 5, 15 )
 idle_time = Vector2( 0, 5 )
 move_time = Vector2( 0, 15 )

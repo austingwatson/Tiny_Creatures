@@ -1,5 +1,7 @@
 extends "res://scripts/state_machine/state.gd"
 
+const amoeba_stats = preload("res://resources/amoeba_stats/amoeba_stats.tres")
+
 var amoeba
 var movement
 var animated_sprite: AnimatedSprite
@@ -20,7 +22,7 @@ func enter(data):
 		return
 	target = slime.global_position
 	movement.direction = amoeba.global_position.direction_to(target)
-	movement.speed *= 2
+	movement.speed = amoeba_stats.lunge_speed
 	animated_sprite.play("lunge")
 	yield(animated_sprite, "animation_finished")
 	if not hit_target:
@@ -29,7 +31,6 @@ func enter(data):
 
 func leave():
 	chomp.disconnect("body_entered", self, "_on_body_entered")
-	movement.speed /= 2
 	movement.direction = Vector2.ZERO
 	
 

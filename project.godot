@@ -28,18 +28,24 @@ _global_script_classes=[ {
 "class": "SlugStats",
 "language": "GDScript",
 "path": "res://resources/slug_stats/slug_stats.gd"
+}, {
+"base": "Node",
+"class": "Task",
+"language": "GDScript",
+"path": "res://scripts/task/task.gd"
 } ]
 _global_script_class_icons={
 "AmoebaStats": "",
 "Juice": "",
 "SlimeStats": "",
-"SlugStats": ""
+"SlugStats": "",
+"Task": ""
 }
 
 [application]
 
 config/name="Tiny Creatures"
-run/main_scene="res://scenes/title_screen.tscn"
+run/main_scene="res://scenes/main.tscn"
 config/icon="res://textures/icon.png"
 
 [audio]
@@ -154,6 +160,21 @@ speed2={
 speed3={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":51,"unicode":0,"echo":false,"script":null)
+ ]
+}
+speed_doom={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":52,"unicode":0,"echo":false,"script":null)
+ ]
+}
+kill={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":75,"unicode":0,"echo":false,"script":null)
+ ]
+}
+follow={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":85,"unicode":0,"echo":false,"script":null)
  ]
 }
 

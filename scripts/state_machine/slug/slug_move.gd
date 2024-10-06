@@ -11,6 +11,7 @@ onready var timer = $Timer
 
 
 func enter(_data):
+	movement.speed = slug_stats.base_speed
 	var rng = randi() % 4
 	match rng:
 		0:

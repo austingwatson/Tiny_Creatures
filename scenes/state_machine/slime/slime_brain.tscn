@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/state_machine/state_machine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/state_machine/state.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scripts/state_machine/slime/slime_move.gd" type="Script" id=5]
 [ext_resource path="res://scripts/state_machine/slime/slime_brain.gd" type="Script" id=6]
 [ext_resource path="res://scripts/state_machine/slime/slime_egg.gd" type="Script" id=7]
+[ext_resource path="res://scripts/state_machine/slime/slime_dead.gd" type="Script" id=8]
 
 [node name="SlimeBrain" instance=ExtResource( 1 )]
 script = ExtResource( 6 )
@@ -15,6 +16,7 @@ slime = NodePath("")
 movement = NodePath("")
 reproduce = NodePath("")
 animated_sprite = NodePath("")
+hunger = NodePath("")
 
 [node name="Egg" parent="." index="1" instance=ExtResource( 2 )]
 script = ExtResource( 7 )
@@ -37,8 +39,21 @@ one_shot = true
 [node name="Reproduce" parent="." index="4" instance=ExtResource( 2 )]
 script = ExtResource( 4 )
 
-[node name="Timer" type="Timer" parent="Reproduce" index="0"]
+[node name="EatTimer" type="Timer" parent="Reproduce" index="0"]
+one_shot = true
+
+[node name="ReproduceTimer" type="Timer" parent="Reproduce" index="1"]
+one_shot = true
+
+[node name="Dead" parent="." index="5" instance=ExtResource( 2 )]
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="Dead" index="0"]
+one_shot = true
 
 [connection signal="timeout" from="Egg/Timer" to="Egg" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Idle/Timer" to="Idle" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Move/Timer" to="Move" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Reproduce/EatTimer" to="Reproduce" method="_on_EatTimer_timeout"]
+[connection signal="timeout" from="Reproduce/ReproduceTimer" to="Reproduce" method="_on_ReproduceTimer_timeout"]
+[connection signal="timeout" from="Dead/Timer" to="Dead" method="_on_Timer_timeout"]

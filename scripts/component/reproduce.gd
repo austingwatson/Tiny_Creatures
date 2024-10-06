@@ -8,6 +8,9 @@ enum Entity {
 
 export(Entity) var entity
 
+const distance = Vector2(16, 16)
+const min_distance = Vector2(8, 8)
+
 var entity_scene
 
 onready var entity_manager = get_parent().entity_manager
@@ -26,7 +29,23 @@ func _ready():
 
 
 func reproduce():
-	var x = rand_range(-4, 4)
-	var y = rand_range(-4, 4)
-	entity_manager.add_entity(entity_scene.instance(), get_parent().global_position + Vector2(x, y), level)
+	entity_manager.add_entity(entity_scene.instance(), get_parent().global_position + Vector2(get_x(), get_y()), level)
 	lay_egg_sound.play()
+
+
+func get_x():
+	var x = rand_range(-distance.x, distance.x)
+	if x > -min_distance.x and x <= 0:
+		x = -min_distance.x
+	elif x < min_distance.x and x >= 0:
+		x = min_distance.x
+	return x
+
+
+func get_y():
+	var y = rand_range(-distance.y, distance.y)
+	if y > -min_distance.y and y <= 0:
+		y = -min_distance.y
+	elif y < min_distance.y and y >= 0:
+		y = min_distance.y
+	return y
