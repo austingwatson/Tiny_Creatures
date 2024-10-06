@@ -1,10 +1,15 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/component/reproduce.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/state_machine/slime/slime_brain.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/component/movement.tscn" type="PackedScene" id=4]
 [ext_resource path="res://textures/entity/drooplets_spritesheet.png" type="Texture" id=5]
+[ext_resource path="res://scenes/component/hunger.tscn" type="PackedScene" id=6]
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 5 )
+region = Rect2( 144, 48, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 5 )
@@ -34,12 +39,21 @@ region = Rect2( 32, 32, 16, 16 )
 atlas = ExtResource( 5 )
 region = Rect2( 48, 32, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 5 )
 region = Rect2( 48, 48, 16, 16 )
 
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 5 )
+region = Rect2( 64, 48, 16, 16 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
+"frames": [ SubResource( 15 ) ],
+"loop": true,
+"name": "dead",
+"speed": 6.0
+}, {
 "frames": [ SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "egg",
@@ -55,29 +69,21 @@ animations = [ {
 "name": "move",
 "speed": 6.0
 }, {
-"frames": [ SubResource( 9 ) ],
-"loop": false,
+"frames": [ SubResource( 13 ), SubResource( 14 ) ],
+"loop": true,
 "name": "reproduce",
-"speed": 1.0
+"speed": 6.0
 } ]
-
-[sub_resource type="RectangleShape2D" id=6]
-resource_local_to_scene = true
-extents = Vector2( 7, 2.5 )
 
 [node name="Slime" instance=ExtResource( 1 )]
 collision_layer = 4
 collision_mask = 1
-creature = 2
+creature = 1
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -6 )
 frames = SubResource( 5 )
-animation = "reproduce"
-
-[node name="CollisionShape2D" parent="." index="1"]
-position = Vector2( 0, -0.5 )
-shape = SubResource( 6 )
+animation = "move"
 
 [node name="SlimeBrain" parent="." index="2" instance=ExtResource( 3 )]
 show_state_name = false
@@ -85,9 +91,13 @@ slime = NodePath("..")
 movement = NodePath("../Movement")
 reproduce = NodePath("../Reproduce")
 animated_sprite = NodePath("../AnimatedSprite")
+hunger = NodePath("../Hunger")
 
 [node name="Movement" parent="." index="3" instance=ExtResource( 4 )]
-speed = 25
 
 [node name="Reproduce" parent="." index="4" instance=ExtResource( 2 )]
 entity = 1
+
+[node name="Hunger" parent="." index="5" instance=ExtResource( 6 )]
+
+[connection signal="dead" from="Hunger" to="SlimeBrain" method="_on_Hunger_dead"]

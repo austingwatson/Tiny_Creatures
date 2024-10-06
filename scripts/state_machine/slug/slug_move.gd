@@ -11,6 +11,7 @@ onready var timer = $Timer
 
 
 func enter(_data):
+	movement.speed = slug_stats.base_speed
 	var rng = randi() % 4
 	match rng:
 		0:
@@ -35,10 +36,18 @@ func enter(_data):
 func leave():
 	movement.direction = Vector2.ZERO
 	trail.can_make_trail = false
+	timer.stop()
 	
 
 func update(_delta):
 	movement.move_kinematic_body(slug)
+	smart_about_walls()
+	
+
+func smart_about_walls():
+	var collision_count = slug.get_slide_count()
+	if collision_count > 0:
+		state_machine.enter_state("Idle")
 
 
 func _on_Timer_timeout():

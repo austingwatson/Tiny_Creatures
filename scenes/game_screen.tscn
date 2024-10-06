@@ -5,7 +5,7 @@
 [ext_resource path="res://scenes/entity/entity_manager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/ui/hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/entity/dropper.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/test_petri_dish.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/test/test_petri_dish.tscn" type="PackedScene" id=6]
 
 [node name="GameScreen" type="Node"]
 script = ExtResource( 2 )
@@ -32,6 +32,7 @@ autostart = true
 [connection signal="drop_creature" from="PlayerControls" to="." method="_on_PlayerControls_drop_creature"]
 [connection signal="selected_creature" from="PlayerControls" to="." method="_on_PlayerControls_selected_creature"]
 [connection signal="amoeba_selected" from="HUD" to="." method="_on_HUD_amoeba_selected"]
+[connection signal="scary_boy_selected" from="HUD" to="." method="_on_HUD_scary_boy_selected"]
 [connection signal="slime_selected" from="HUD" to="." method="_on_HUD_slime_selected"]
 [connection signal="slug_selected" from="HUD" to="." method="_on_HUD_slug_selected"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

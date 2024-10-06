@@ -1,6 +1,6 @@
 extends Node2D
 
-signal dropper_done
+signal dropper_done(spawn_position)
 
 const juice = preload("res://resources/juice/juice.tres")
 const squeeze_speed = 0.25
@@ -9,9 +9,11 @@ const follow_speed = 4.0
 export(Texture) var slug_liquid
 export(Texture) var slime_liquid
 export(Texture) var amoeba_liquid
+export(Texture) var scary_boy_liquid
 export(Texture) var slug_drop
 export(Texture) var slime_drop
 export(Texture) var amoeba_drop
+export(Texture) var scary_boy_drop
 
 onready var liquid = $Liquid
 onready var pump = $Pump
@@ -19,6 +21,7 @@ onready var pump_start_pos = pump.position
 onready var drop = $Drop
 onready var change_sound = $ChangeSound
 onready var drop_sound = $DropSound
+onready var spawn_position = $SpawnPosition
 
 var dropping = false
 
@@ -38,6 +41,11 @@ func _process(delta):
 
 func switch_creature(creature):
 	match creature:
+		-1:
+			liquid.texture_progress = null
+			liquid.value = 0
+			pump.position = Vector2(pump.position.x, pump_start_pos.y)
+			return
 		juice.Creature.SLUG:
 			liquid.texture_progress = slug_liquid
 			liquid.max_value = juice.slug_max
@@ -53,12 +61,17 @@ func switch_creature(creature):
 			liquid.max_value = juice.amoeba_max
 			liquid.value = juice.amoeba
 			drop.texture = amoeba_drop
+		juice.Creature.SCARY_BOY:
+			liquid.texture_progress = scary_boy_liquid
+			liquid.max_value = juice.scary_boy_max
+			liquid.value = juice.scary_boy
+			drop.texture = scary_boy_drop
 	pump.position = Vector2(pump.position.x, pump_start_pos.y - (liquid.texture_progress.get_size().y * liquid.ratio))
 	if liquid.value == 0:
 		modulate.a = 0.5
 	else:
 		modulate.a = 1.0
-	if not change_sound.playing:
+	if not change_sound.playing and liquid.value > 0:
 		change_sound.play()
 	
 
@@ -73,7 +86,7 @@ func drop_creature():
 	var target_pump_pos = Vector2(pump.position.x, pump_start_pos.y - (liquid.texture_progress.get_size().y * (ratio)))
 	yield(create_tween().tween_property(pump, "position", target_pump_pos, squeeze_speed), "finished")
 	drop.visible = false
-	emit_signal("dropper_done")
+	emit_signal("dropper_done", spawn_position.global_position + Vector2(0, 16))
 	if liquid.value == 0:
 		modulate.a = 0.5
 	else:

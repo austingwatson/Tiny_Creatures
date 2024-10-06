@@ -5,6 +5,7 @@ const amoeba_stats = preload("res://resources/amoeba_stats/amoeba_stats.tres")
 var amoeba
 var reproduce
 var animated_sprite: AnimatedSprite
+var hunger
 
 onready var timer = $Timer
 
@@ -12,6 +13,7 @@ onready var timer = $Timer
 func enter(_data):
 	animated_sprite.play("reproduce")
 	timer.start(amoeba_stats.get_random_reproduce_time())
+	hunger.reset_hunger()
 
 
 func leave():

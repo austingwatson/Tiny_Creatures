@@ -4,5 +4,13 @@
 
 [resource]
 script = ExtResource( 1 )
+base_speed = 30
+lunge_speed = 60
 egg_time = Vector2( 2, 8 )
 reproduce_time = Vector2( 10, 30 )
+dead_time = Vector2( 10, 20 )
+hunger = Vector2( 5, 10 )
+food_time = Vector2( 10, 20 )
+wander_time = Vector2( 1, 3 )
+idle_time = Vector2( 4, 8 )
+lunge_cooldown_time = Vector2( 1, 2 )
