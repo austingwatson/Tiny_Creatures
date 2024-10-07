@@ -1,6 +1,7 @@
 extends "res://scripts/state_machine/state.gd"
 
 const amoeba_stats = preload("res://resources/amoeba_stats/amoeba_stats.tres")
+const splat_range = 32
 
 var amoeba
 var movement
@@ -56,3 +57,7 @@ func _on_body_entered(body):
 	hit_target = true
 	chomp.hit()
 	state_machine.enter_state("Reproduce")
+	
+	amoeba.level.set_tile_on(amoeba.global_position, Tile.Layer.RED)
+	for i in range(randi() % 5):
+		amoeba.level.set_tile_on(amoeba.global_position + Vector2(rand_range(-splat_range, splat_range), rand_range(-splat_range, splat_range)), Tile.Layer.RED)

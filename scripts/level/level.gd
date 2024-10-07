@@ -37,6 +37,7 @@ func fix_layer(layer: TileMap):
 			var good = (get_tile_count_2x2_tl(layer, i, j) == 3) or (get_tile_count_2x2_tr(layer, i, j) == 3) or (get_tile_count_2x2_bl(layer, i, j) == 3) or (get_tile_count_2x2_br(layer, i, j) == 3)
 			if not good:
 				layer.set_cell(i, j, -1)
+	layer.update_dirty_quadrants()
 				
 
 func get_tile_count_2x2_tl(layer: TileMap, x: int, y: int):
