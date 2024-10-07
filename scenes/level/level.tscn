@@ -107,6 +107,7 @@ format = 1
 texture = ExtResource( 1 )
 
 [node name="Walls" type="Node2D" parent="."]
+visible = false
 
 [node name="TopRight" type="StaticBody2D" parent="Walls"]
 collision_mask = 14
@@ -141,7 +142,9 @@ stream = ExtResource( 4 )
 area_mask = 0
 
 [node name="BurnAnimation" parent="." instance=ExtResource( 6 )]
+visible = false
 
 [node name="CloseLidAnimation" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [connection signal="lid_down" from="BurnAnimation" to="." method="_on_BurnAnimation_lid_down"]

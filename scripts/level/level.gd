@@ -16,6 +16,10 @@ onready var change_tile_sound = $ChangeTileSound
 func _ready():
 	randomize()
 	
+	$Walls.visible = true
+	$BurnAnimation.visible = true
+	$CloseLidAnimation.visible = true
+	
 
 func _process(_delta):
 	fix_layer(purple_layer)
