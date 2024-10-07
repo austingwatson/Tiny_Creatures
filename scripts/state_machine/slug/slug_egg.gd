@@ -13,8 +13,9 @@ func enter(_data):
 	
 
 func leave():
-	SoundPlayer.play_hatch_sound()
+	timer.stop()
 
 
 func _on_Timer_timeout():
+	SoundPlayer.play_hatch_sound()
 	state_machine.enter_state("Idle")

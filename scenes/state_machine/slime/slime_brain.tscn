@@ -17,6 +17,7 @@ movement = NodePath("")
 reproduce = NodePath("")
 animated_sprite = NodePath("")
 hunger = NodePath("")
+hurt = NodePath("")
 
 [node name="Egg" parent="." index="1" instance=ExtResource( 2 )]
 script = ExtResource( 7 )

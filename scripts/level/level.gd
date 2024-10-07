@@ -6,6 +6,9 @@ signal reset
 
 onready var base_layer = $BaseLayer
 onready var purple_layer = $PurpleLayer
+onready var green_layer = $PurpleLayer
+onready var red_layer = $PurpleLayer
+onready var yellow_layer = $PurpleLayer
 onready var new_tile_sound = $NewTileSound
 onready var change_tile_sound = $ChangeTileSound
 
@@ -15,15 +18,22 @@ func _ready():
 	
 
 func _process(_delta):
-	var purple_size = purple_layer.get_used_rect().size / 2
-	for i in range(-purple_size.x, purple_size.x):
-		for j in range(-purple_size.y, purple_size.y):
-			if purple_layer.get_cell(i, j) != 2:
+	fix_layer(purple_layer)
+	fix_layer(green_layer)
+	fix_layer(red_layer)
+	fix_layer(yellow_layer)
+				
+
+func fix_layer(layer: TileMap):
+	var size = layer.get_used_rect().size / 2
+	for i in range(-size.x, size.x):
+		for j in range(-size.y, size.y):
+			if layer.get_cell(i, j) != 2:
 				continue
-			var good = (get_tile_count_2x2_tl(purple_layer, i, j) == 3) or (get_tile_count_2x2_tr(purple_layer, i, j) == 3) or (get_tile_count_2x2_bl(purple_layer, i, j) == 3) or (get_tile_count_2x2_br(purple_layer, i, j) == 3)
+			var good = (get_tile_count_2x2_tl(layer, i, j) == 3) or (get_tile_count_2x2_tr(layer, i, j) == 3) or (get_tile_count_2x2_bl(layer, i, j) == 3) or (get_tile_count_2x2_br(layer, i, j) == 3)
 			if not good:
-				purple_layer.set_cell(i, j, -1)
-	
+				layer.set_cell(i, j, -1)
+				
 
 func get_tile_count_2x2_tl(layer: TileMap, x: int, y: int):
 	var count = 0
