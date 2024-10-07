@@ -6,20 +6,22 @@ enum CurrentLevel {
 	SLIME_LEVEL,
 	AMOEBA_LEVEL,
 	SCARY_LEVEL,
+	SANDBOX,
 }
 
 const slug_level = preload("res://scenes/level/slug_trail_level.tscn")
 const slime_level = preload("res://scenes/level/slime_level.tscn")
 const amoeba_level = preload("res://scenes/level/amoeba_level.tscn")
 const scary_level = preload("res://scenes/level/scary_level.tscn")
+const sandbox_level = preload("res://scenes/level/sandbox.tscn")
 
 var current_level = CurrentLevel.SLUG_LEVEL
-var max_levels = 4
+var max_levels = 5
 var animation_playing = false
 var mouse_in = false
 
-var names = ["Purple Task", "Green Task", "Red Task", "Yellow Task"]
-var descriptions = ["Purple", "Green", "Red", "Yellow"]
+var names = ["Purple Task", "Green Task", "Red Task", "Yellow Task", "Sandbox"]
+var descriptions = ["Purple", "Green", "Red", "Yellow", "Sandbox"]
 
 onready var petri_dish = $LevelSelect/PetriDish
 onready var petri_dish_animation_player = $LevelSelect/PetriDish.get_node("AnimationPlayer")
@@ -48,6 +50,9 @@ func _input(event):
 			CurrentLevel.SCARY_LEVEL:
 				var main = get_parent()
 				main.change_scene(main.Scene.GAME_SCREEN, scary_level)
+			CurrentLevel.SANDBOX:
+				var main = get_parent()
+				main.change_scene(main.Scene.GAME_SCREEN, sandbox_level)
 		
 	
 	if not OS.is_debug_build():

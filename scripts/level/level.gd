@@ -118,49 +118,53 @@ func set_tile_off(global_position: Vector2, layer: int):
 
 func set_purple_tile(global_position: Vector2, tile: int):
 	var cell = get_purple_cell(global_position)
-	if cell == Tile.Base.NONE:
-		new_tile_sound.play()
-		tile_changed(Tile.Layer.PURPLE)
-	elif tile != cell:
+	if tile != cell:
 		change_tile_sound.play()
-		tile_changed(Tile.Layer.PURPLE)
+		if tile == 2:
+			tile_set(Tile.Layer.PURPLE)
+		elif tile == -1:
+			tile_unset(Tile.Layer.PURPLE)
 	set_cell_2x2(global_position, purple_layer, tile)
 	
 
 func set_green_tile(global_position: Vector2, tile: int):
 	var cell = get_green_cell(global_position)
-	if cell == Tile.Base.NONE:
-		new_tile_sound.play()
-		tile_changed(Tile.Layer.GREEN)
-	elif tile != cell:
+	if tile != cell:
 		change_tile_sound.play()
-		tile_changed(Tile.Layer.GREEN)
+		if tile == 2:
+			tile_set(Tile.Layer.GREEN)
+		elif tile == -1:
+			tile_unset(Tile.Layer.GREEN)
 	set_cell_2x2(global_position, green_layer, tile)
 	
 
 func set_red_tile(global_position: Vector2, tile: int):
 	var cell = get_red_cell(global_position)
-	if cell == Tile.Base.NONE:
-		new_tile_sound.play()
-		tile_changed(Tile.Layer.RED)
-	elif tile != cell:
+	if tile != cell:
 		change_tile_sound.play()
-		tile_changed(Tile.Layer.RED)
+		if tile == 2:
+			tile_set(Tile.Layer.RED)
+		elif tile == -1:
+			tile_unset(Tile.Layer.RED)
 	set_cell_2x2(global_position, red_layer, tile)
 	
 
 func set_yellow_tile(global_position: Vector2, tile: int):
 	var cell = get_yellow_cell(global_position)
-	if cell == Tile.Base.NONE:
-		new_tile_sound.play()
-		tile_changed(Tile.Layer.YELLOW)
-	elif tile != cell:
+	if tile != cell:
 		change_tile_sound.play()
-		tile_changed(Tile.Layer.YELLOW)
+		if tile == 2:
+			tile_set(Tile.Layer.YELLOW)
+		elif tile == -1:
+			tile_unset(Tile.Layer.YELLOW)
 	set_cell_2x2(global_position, yellow_layer, tile)
 
 
-func tile_changed(layer: int):
+func tile_set(layer: int):
+	pass
+	
+
+func tile_unset(layer: int):
 	pass
 	
 
