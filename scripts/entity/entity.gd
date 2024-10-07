@@ -10,6 +10,8 @@ var mouse_inside = false
 func _ready():
 	if has_node("Trail"):
 		$Trail.level = level
+	if has_node("Hurt"):
+		$Hurt.level = level
 		
 
 func _input(event):

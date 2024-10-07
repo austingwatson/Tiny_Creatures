@@ -5,6 +5,7 @@ export(NodePath) onready var movement = get_node(movement) as Node
 export(NodePath) onready var reproduce = get_node(reproduce) as Node2D
 export(NodePath) onready var animated_sprite = get_node(animated_sprite) as AnimatedSprite
 export(NodePath) onready var hunger = get_node(hunger) as Node
+export(NodePath) onready var hurt = get_node(hurt) as Node2D
 
 const slime_stats = preload("res://resources/slime_stats/slime_stats.tres")
 
@@ -38,9 +39,15 @@ func _ready():
 	dead.slime = slime
 	dead.animated_sprite = animated_sprite
 	
+	hurt.connect("dead", self, "_on_dead")
+	
 	init()
 
 
 func _on_Hunger_dead():
 	$Dead.leave_slime = false
+	enter_state("Dead")
+	
+
+func _on_dead():
 	enter_state("Dead")
