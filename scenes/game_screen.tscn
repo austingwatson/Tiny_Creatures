@@ -32,6 +32,7 @@ autostart = true
 [connection signal="drop_creature" from="PlayerControls" to="." method="_on_PlayerControls_drop_creature"]
 [connection signal="selected_creature" from="PlayerControls" to="." method="_on_PlayerControls_selected_creature"]
 [connection signal="amoeba_selected" from="HUD" to="." method="_on_HUD_amoeba_selected"]
+[connection signal="reset" from="HUD" to="." method="_on_HUD_reset"]
 [connection signal="scary_boy_selected" from="HUD" to="." method="_on_HUD_scary_boy_selected"]
 [connection signal="slime_selected" from="HUD" to="." method="_on_HUD_slime_selected"]
 [connection signal="slug_selected" from="HUD" to="." method="_on_HUD_slug_selected"]

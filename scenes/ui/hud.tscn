@@ -1,9 +1,8 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://scripts/ui/hud.gd" type="Script" id=1]
 [ext_resource path="res://textures/entity/syringe_sheet.png" type="Texture" id=2]
 [ext_resource path="res://textures/ui/ui_sheet.png" type="Texture" id=3]
-[ext_resource path="res://scenes/ui/speed_setting.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
@@ -53,6 +52,34 @@ region = Rect2( 224, 64, 32, 31 )
 atlas = ExtResource( 2 )
 region = Rect2( 224, 96, 32, 31 )
 
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 192, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 208, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 3 )
+region = Rect2( 416, 192, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 3 )
+region = Rect2( 416, 208, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 3 )
+region = Rect2( 448, 192, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 3 )
+region = Rect2( 448, 208, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 3 )
+region = Rect2( 472, 224, 488, 46 )
+
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
 region = Rect2( 96, 128, 32, 32 )
@@ -73,9 +100,30 @@ region = Rect2( 0, 32, 16, 16 )
 atlas = ExtResource( 3 )
 region = Rect2( 0, 48, 16, 16 )
 
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 3 )
+region = Rect2( 272, 208, 48, 32 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 3 )
+region = Rect2( 320, 208, 48, 32 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 3 )
+region = Rect2( 224, 208, 48, 32 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 192, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 208, 32, 16 )
+
 [node name="HUD" type="CanvasLayer"]
 layer = 100
 script = ExtResource( 1 )
+show_fps = false
 slug_juice1 = SubResource( 3 )
 slug_juice2 = SubResource( 4 )
 slug_juice3 = SubResource( 5 )
@@ -88,142 +136,162 @@ amoeba_juice3 = SubResource( 16 )
 scary_boy_juice1 = SubResource( 18 )
 scary_boy_juice2 = SubResource( 19 )
 scary_boy_juice3 = SubResource( 20 )
+speed_setting1_normal = SubResource( 31 )
+speed_setting1_hover = SubResource( 32 )
+speed_setting2_normal = SubResource( 33 )
+speed_setting2_hover = SubResource( 34 )
+speed_setting3_normal = SubResource( 35 )
+speed_setting3_hover = SubResource( 36 )
+
+[node name="BottomPanel" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -241.0
+margin_top = -46.0
+margin_right = 247.0
+texture = SubResource( 39 )
+stretch_mode = 3
+
+[node name="Vials" type="HBoxContainer" parent="BottomPanel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 11.0
+margin_top = -36.0
+margin_right = 187.0
+mouse_filter = 2
+custom_constants/separation = 16
+
+[node name="Slug" type="TextureProgress" parent="BottomPanel/Vials"]
+margin_right = 32.0
+margin_bottom = 36.0
+mouse_filter = 0
+max_value = 10.0
+value = 10.0
+texture_over = SubResource( 1 )
+fill_mode = 3
+
+[node name="Sticker" type="TextureRect" parent="BottomPanel/Vials/Slug"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 6 )
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="BottomPanel/Vials/Slug/Sticker"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "1"
+align = 1
+valign = 1
+
+[node name="Slime" type="TextureProgress" parent="BottomPanel/Vials"]
+margin_left = 48.0
+margin_right = 80.0
+margin_bottom = 36.0
+mouse_filter = 0
+max_value = 10.0
+value = 10.0
+texture_over = SubResource( 1 )
+fill_mode = 3
+
+[node name="Sticker" type="TextureRect" parent="BottomPanel/Vials/Slime"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 9 )
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="BottomPanel/Vials/Slime/Sticker"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "1"
+align = 1
+valign = 1
+
+[node name="Amoeba" type="TextureProgress" parent="BottomPanel/Vials"]
+margin_left = 96.0
+margin_right = 128.0
+margin_bottom = 36.0
+mouse_filter = 0
+max_value = 10.0
+value = 10.0
+texture_over = SubResource( 1 )
+fill_mode = 3
+
+[node name="Sticker" type="TextureRect" parent="BottomPanel/Vials/Amoeba"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 13 )
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="BottomPanel/Vials/Amoeba/Sticker"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "1"
+align = 1
+valign = 1
+
+[node name="ScaryBoy" type="TextureProgress" parent="BottomPanel/Vials"]
+margin_left = 144.0
+margin_right = 176.0
+margin_bottom = 36.0
+mouse_filter = 0
+max_value = 10.0
+value = 10.0
+texture_over = SubResource( 1 )
+fill_mode = 3
+
+[node name="Sticker" type="TextureRect" parent="BottomPanel/Vials/ScaryBoy"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 17 )
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="BottomPanel/Vials/ScaryBoy/Sticker"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "1"
+align = 1
+valign = 1
+
+[node name="Reset" type="TextureButton" parent="BottomPanel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -76.0
+margin_top = -37.0
+margin_right = -7.0
+texture_normal = SubResource( 29 )
+texture_pressed = SubResource( 28 )
+texture_hover = SubResource( 30 )
+stretch_mode = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 autostart = true
 
 [node name="FPS" type="Label" parent="."]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -55.0
 margin_bottom = 14.0
 text = "FPS: 144"
 
-[node name="Vials" type="HBoxContainer" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -32.0
-margin_right = 104.0
-mouse_filter = 2
-custom_constants/separation = 16
-alignment = 1
-
-[node name="Slug" type="TextureProgress" parent="Vials"]
-margin_right = 32.0
-margin_bottom = 32.0
-mouse_filter = 0
-max_value = 10.0
-value = 10.0
-texture_over = SubResource( 1 )
-fill_mode = 3
-
-[node name="Sticker" type="TextureRect" parent="Vials/Slug"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = SubResource( 6 )
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="Vials/Slug/Sticker"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "1"
-align = 1
-valign = 1
-
-[node name="Slime" type="TextureProgress" parent="Vials"]
-margin_left = 48.0
-margin_right = 80.0
-margin_bottom = 32.0
-mouse_filter = 0
-max_value = 10.0
-value = 10.0
-texture_over = SubResource( 1 )
-fill_mode = 3
-
-[node name="Sticker" type="TextureRect" parent="Vials/Slime"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = SubResource( 9 )
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="Vials/Slime/Sticker"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "1"
-align = 1
-valign = 1
-
-[node name="Amoeba" type="TextureProgress" parent="Vials"]
-margin_left = 96.0
-margin_right = 128.0
-margin_bottom = 32.0
-mouse_filter = 0
-max_value = 10.0
-value = 10.0
-texture_over = SubResource( 1 )
-fill_mode = 3
-
-[node name="Sticker" type="TextureRect" parent="Vials/Amoeba"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = SubResource( 13 )
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="Vials/Amoeba/Sticker"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "1"
-align = 1
-valign = 1
-
-[node name="ScaryBoy" type="TextureProgress" parent="Vials"]
-margin_left = 144.0
-margin_right = 176.0
-margin_bottom = 32.0
-mouse_filter = 0
-max_value = 10.0
-value = 10.0
-texture_over = SubResource( 1 )
-fill_mode = 3
-
-[node name="Sticker" type="TextureRect" parent="Vials/ScaryBoy"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = SubResource( 17 )
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="Vials/ScaryBoy/Sticker"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "1"
-align = 1
-valign = 1
-
-[node name="SpeedSettings" type="HBoxContainer" parent="."]
+[node name="SpeedSetting" type="TextureButton" parent="."]
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -56.0
-margin_top = -16.0
-mouse_filter = 2
+margin_left = -32.0
+margin_bottom = 16.0
+texture_normal = SubResource( 37 )
+texture_hover = SubResource( 38 )
+stretch_mode = 2
 
-[node name="SpeedSetting1" parent="SpeedSettings" instance=ExtResource( 4 )]
-speed = 1
-
-[node name="SpeedSetting2" parent="SpeedSettings" instance=ExtResource( 4 )]
-margin_left = 20.0
-margin_right = 36.0
-speed = 3
-
-[node name="SpeedSetting3" parent="SpeedSettings" instance=ExtResource( 4 )]
-margin_left = 40.0
-margin_right = 56.0
-speed = 6
-
+[connection signal="gui_input" from="BottomPanel/Vials/Slug" to="." method="_on_Slug_gui_input"]
+[connection signal="gui_input" from="BottomPanel/Vials/Slime" to="." method="_on_Slime_gui_input"]
+[connection signal="gui_input" from="BottomPanel/Vials/Amoeba" to="." method="_on_Amoeba_gui_input"]
+[connection signal="gui_input" from="BottomPanel/Vials/ScaryBoy" to="." method="_on_ScaryBoy_gui_input"]
+[connection signal="pressed" from="BottomPanel/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="gui_input" from="Vials/Slug" to="." method="_on_Slug_gui_input"]
-[connection signal="gui_input" from="Vials/Slime" to="." method="_on_Slime_gui_input"]
-[connection signal="gui_input" from="Vials/Amoeba" to="." method="_on_Amoeba_gui_input"]
-[connection signal="gui_input" from="Vials/ScaryBoy" to="." method="_on_ScaryBoy_gui_input"]
+[connection signal="pressed" from="SpeedSetting" to="." method="_on_SpeedSetting_pressed"]

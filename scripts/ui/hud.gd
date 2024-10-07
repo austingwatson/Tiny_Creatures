@@ -4,6 +4,7 @@ signal slug_selected
 signal slime_selected
 signal amoeba_selected
 signal scary_boy_selected
+signal reset
 
 const juice = preload("res://resources/juice/juice.tres")
 
@@ -21,19 +22,29 @@ export(Texture) var scary_boy_juice1
 export(Texture) var scary_boy_juice2
 export(Texture) var scary_boy_juice3
 
+export(Texture) var speed_setting1_normal
+export(Texture) var speed_setting1_hover
+export(Texture) var speed_setting2_normal
+export(Texture) var speed_setting2_hover
+export(Texture) var speed_setting3_normal
+export(Texture) var speed_setting3_hover
+
+var current_speed_setting = 1
+
 onready var slug_juices = [slug_juice1, slug_juice2, slug_juice3]
 onready var slime_juices = [slime_juice1, slime_juice2, slime_juice3]
 onready var amoeba_juices = [amoeba_juice1, amoeba_juice2, amoeba_juice3]
 onready var scary_boy_juices = [scary_boy_juice1, scary_boy_juice2, scary_boy_juice3]
 onready var fps = $FPS
-onready var slug = $Vials/Slug
-onready var slug_label = $Vials/Slug/Sticker/Label
-onready var slime = $Vials/Slime
-onready var slime_label = $Vials/Slime/Sticker/Label
-onready var amoeba = $Vials/Amoeba
-onready var amoeba_label = $Vials/Amoeba/Sticker/Label
-onready var scary_boy = $Vials/ScaryBoy
-onready var scary_boy_label = $Vials/ScaryBoy/Sticker/Label
+onready var slug = $BottomPanel/Vials/Slug
+onready var slug_label = $BottomPanel/Vials/Slug/Sticker/Label
+onready var slime = $BottomPanel/Vials/Slime
+onready var slime_label = $BottomPanel/Vials/Slime/Sticker/Label
+onready var amoeba = $BottomPanel/Vials/Amoeba
+onready var amoeba_label = $BottomPanel/Vials/Amoeba/Sticker/Label
+onready var scary_boy = $BottomPanel/Vials/ScaryBoy
+onready var scary_boy_label = $BottomPanel/Vials/ScaryBoy/Sticker/Label
+onready var speed_setting = $SpeedSetting
 
 
 func _ready():
@@ -42,6 +53,9 @@ func _ready():
 	slime.texture_progress = slime_juices.pick_random()
 	amoeba.texture_progress = amoeba_juices.pick_random()
 	scary_boy.texture_progress = scary_boy_juices.pick_random()
+	
+	speed_setting.texture_normal = speed_setting1_normal
+	speed_setting.texture_hover = speed_setting1_hover
 
 
 func _process(_delta):
@@ -49,6 +63,15 @@ func _process(_delta):
 
 
 func drop_creature():
+	if juice.slug_max == 0:
+		slug.visible = false
+	if juice.slime_max == 0:
+		slime.visible = false
+	if juice.amoeba_max == 0:
+		amoeba.visible = false
+	if juice.scary_boy_max == 0:
+		scary_boy.visible = false
+	
 	slug.max_value = juice.slug_max
 	slug.value = juice.slug
 	slug_label.text = str(juice.slug)
@@ -91,3 +114,26 @@ func _on_Amoeba_gui_input(event):
 func _on_ScaryBoy_gui_input(event):
 	if event.is_action_released("click_vial"):
 		emit_signal("scary_boy_selected")
+
+
+func _on_Reset_pressed():
+	emit_signal("reset")
+
+
+func _on_SpeedSetting_pressed():
+	match current_speed_setting:
+		1:
+			current_speed_setting = 2
+			Engine.time_scale = 3
+			speed_setting.texture_normal = speed_setting2_normal
+			speed_setting.texture_hover = speed_setting2_hover
+		2:
+			current_speed_setting = 3
+			Engine.time_scale = 6
+			speed_setting.texture_normal = speed_setting3_normal
+			speed_setting.texture_hover = speed_setting3_hover
+		3:
+			current_speed_setting = 1
+			Engine.time_scale = 1
+			speed_setting.texture_normal = speed_setting1_normal
+			speed_setting.texture_hover = speed_setting1_hover

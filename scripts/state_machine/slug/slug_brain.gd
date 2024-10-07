@@ -19,4 +19,9 @@ func _ready():
 	move.animated_sprite = animated_sprite
 	move.trail = trail
 	
+	var flee = $Flee
+	flee.slug = slug
+	flee.animated_sprite = animated_sprite
+	flee.movement = movement
+	
 	init()

@@ -20,5 +20,11 @@ func enter_state(state, data = {}):
 	current_state.enter(data)
 	
 
+func force_state_change(state, blocking_states, data = {}):
+	if blocking_states.has(current_state.name):
+		return
+	enter_state(state, data)
+	
+
 func _physics_process(delta):
 	current_state.update(delta)

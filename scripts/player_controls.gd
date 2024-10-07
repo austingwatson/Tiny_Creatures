@@ -9,7 +9,7 @@ export(NodePath) onready var entity_manager = get_node(entity_manager) as Node2D
 export(NodePath) onready var camera = get_node(camera) as Camera2D
 
 var level
-var current_creature = juice.Creature.SLUG
+var current_creature = -1
 var dropper_animating = false
 
 var dragging_camera = false

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/level/level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/level/slime_level.gd" type="Script" id=2]
+[ext_resource path="res://scenes/ui/task.tscn" type="PackedScene" id=3]
+
+[node name="SlimeLevel" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Task" parent="." index="7" instance=ExtResource( 3 )]
+task_name = "Slime Count"
+task_description = "Grow 100 slimes"
+needed = 100

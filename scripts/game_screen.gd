@@ -2,6 +2,7 @@ extends Node
 
 const juice = preload("res://resources/juice/juice.tres")
 
+var level_scene
 var level = null
 
 onready var entity_manager = $EntityManager
@@ -10,20 +11,16 @@ onready var player_controls = $PlayerControls
 onready var hud = $HUD
 	
 
-func reset():
-	juice.init_juice(3, 5, 1, 4)
-	hud.drop_creature()
-	dropper.switch_creature(-1)
-	
-	if level != null:
-		level.queue_free()
-	level = preload("res://scenes/level/level.tscn").instance()
+func _ready():
+	Engine.time_scale = 1
+	level = level_scene.instance()
 	player_controls.level = level
 	add_child(level)
 	level.connect("task_done", self, "_on_task_done")
-	
-	for child in entity_manager.get_children():
-		child.queue_free()
+	level.connect("task_failed", self, "_on_task_failed")
+	level.connect("reset", self, "_on_level_reset")
+	hud.drop_creature()
+	dropper.switch_creature(-1)
 	
 	var foreground_size = level.get_node("Foreground").texture.get_size()
 	var camera = $Camera2D
@@ -63,6 +60,8 @@ func _input(event):
 		Engine.time_scale = 20
 	elif not $Camera2D.current and event.is_action_pressed("follow"):
 		$Camera2D.current = true
+	elif event.is_action_released("test_fail"):
+		level.any_task_failed()
 
 
 func _on_PlayerControls_selected_creature(creature):
@@ -96,9 +95,24 @@ func _on_HUD_amoeba_selected():
 	
 
 func _on_task_done():
+	print("gs task done")
+	var main = get_parent()
+	main.change_scene(main.Scene.TITLE_SCREEN)
+
+
+func _on_task_failed():
 	var main = get_parent()
 	main.change_scene(main.Scene.TITLE_SCREEN)
 
 
 func _on_HUD_scary_boy_selected():
 	player_controls.change_creature(juice.Creature.SCARY_BOY)
+
+
+func _on_HUD_reset():
+	level.reset_level()
+	
+
+func _on_level_reset():
+	var main = get_parent()
+	main.change_scene(main.Scene.GAME_SCREEN, level_scene, $Camera2D.position, dropper.global_position)

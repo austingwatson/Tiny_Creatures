@@ -1,7 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://textures/test/test_button_normal.png" type="Texture" id=1]
-[ext_resource path="res://textures/test/test_button_hover.png" type="Texture" id=2]
+[ext_resource path="res://textures/ui/ui_sheet.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 144, 96, 32 )
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -24,11 +27,9 @@ margin_bottom = 20.0
 alignment = 1
 
 [node name="Play" type="TextureButton" parent="Buttons"]
-margin_top = 2.0
-margin_right = 64.0
-margin_bottom = 18.0
-texture_normal = ExtResource( 1 )
-texture_hover = ExtResource( 2 )
+margin_right = 96.0
+margin_bottom = 32.0
+texture_normal = SubResource( 1 )
 stretch_mode = 2
 
 [node name="Label" type="Label" parent="Buttons/Play"]
@@ -39,9 +40,9 @@ align = 1
 valign = 1
 
 [node name="Volume" type="HSlider" parent="Buttons"]
-margin_top = 22.0
-margin_right = 64.0
-margin_bottom = 38.0
+margin_top = 36.0
+margin_right = 96.0
+margin_bottom = 52.0
 
 [node name="Label" type="Label" parent="Buttons/Volume"]
 margin_right = 40.0

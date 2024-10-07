@@ -1,7 +1,9 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/entity/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://textures/entity/drooplets_spritesheet.png" type="Texture" id=2]
+[ext_resource path="res://scenes/state_machine/scary_boy/scary_boy_brain.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/component/scare.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -87,3 +89,14 @@ creature = 3
 scale = Vector2( 1, 1.125 )
 frames = SubResource( 14 )
 animation = "egg"
+
+[node name="ScaryBoyBrain" parent="." index="3" instance=ExtResource( 3 )]
+scary_boy = NodePath("..")
+animated_sprite = NodePath("../AnimatedSprite")
+scare = NodePath("../Scare")
+
+[node name="Scare" parent="." index="4" instance=ExtResource( 4 )]
+collision_layer = 16
+collision_mask = 2
+scare_range = 100
+scare_slug = true
