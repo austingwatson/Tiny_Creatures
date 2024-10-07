@@ -75,3 +75,4 @@ trail = NodePath("../Trail")
 [node name="Movement" parent="." index="3" instance=ExtResource( 3 )]
 
 [node name="Trail" parent="." index="4" instance=ExtResource( 2 )]
+layer = 1

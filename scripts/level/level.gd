@@ -4,80 +4,195 @@ signal task_done
 signal task_failed
 signal reset
 
-onready var layer1 = $Layer1
-onready var layer2 = $Layer2
+onready var base_layer = $BaseLayer
+onready var purple_layer = $PurpleLayer
 onready var new_tile_sound = $NewTileSound
 onready var change_tile_sound = $ChangeTileSound
 
 
 func _ready():
 	randomize()
+	
+
+func _process(_delta):
+	var purple_size = purple_layer.get_used_rect().size / 2
+	for i in range(-purple_size.x, purple_size.x):
+		for j in range(-purple_size.y, purple_size.y):
+			if purple_layer.get_cell(i, j) != 2:
+				continue
+			var good = (get_tile_count_2x2_tl(purple_layer, i, j) == 3) or (get_tile_count_2x2_tr(purple_layer, i, j) == 3) or (get_tile_count_2x2_bl(purple_layer, i, j) == 3) or (get_tile_count_2x2_br(purple_layer, i, j) == 3)
+			if not good:
+				purple_layer.set_cell(i, j, -1)
+	
+
+func get_tile_count_2x2_tl(layer: TileMap, x: int, y: int):
+	var count = 0
+	
+	if layer.get_cell(x - 1, y - 1) == 2:
+		count += 1
+	if layer.get_cell(x, y - 1) == 2:
+		count += 1
+	if layer.get_cell(x - 1, y) == 2:
+		count += 1
+	
+	return count
 
 
-func set_tile(global_position: Vector2, tile: int):
-	var local_position = layer2.to_local(global_position)
-	var map_position = layer2.world_to_map(local_position)
-	var cell = layer2.get_cell(map_position.x, map_position.y)
-	if cell == Tile.NONE:
+func get_tile_count_2x2_tr(layer: TileMap, x: int, y: int):
+	var count = 0
+	
+	if layer.get_cell(x, y - 1) == 2:
+		count += 1
+	if layer.get_cell(x + 1, y - 1) == 2:
+		count += 1
+	if layer.get_cell(x + 1, y) == 2:
+		count += 1
+	
+	return count
+	
+
+func get_tile_count_2x2_bl(layer: TileMap, x: int, y: int):
+	var count = 0
+	
+	if layer.get_cell(x - 1, y) == 2:
+		count += 1
+	if layer.get_cell(x - 1, y + 1) == 2:
+		count += 1
+	if layer.get_cell(x, y + 1) == 2:
+		count += 1
+	
+	return count
+	
+
+func get_tile_count_2x2_br(layer: TileMap, x: int, y: int):
+	var count = 0
+	
+	if layer.get_cell(x + 1, y) == 2:
+		count += 1
+	if layer.get_cell(x + 1, y + 1) == 2:
+		count += 1
+	if layer.get_cell(x, y + 1) == 2:
+		count += 1
+	
+	return count
+
+
+func set_tile_on(global_position: Vector2, layer: int):
+	match layer:
+		Tile.Layer.PURPLE:
+			set_purple_tile(global_position, 2)
+
+
+func set_tile_off(global_position: Vector2, layer: int):
+	match layer:
+		Tile.Layer.PURPLE:
+			set_purple_tile(global_position, -1)
+			
+
+func set_purple_tile(global_position: Vector2, tile: int):
+	var cell = get_purple_cell(global_position)
+	if cell == Tile.Base.NONE:
 		new_tile_sound.play()
-		tile_changed(Tile.NONE, tile)
+		tile_changed(Tile.Layer.PURPLE)
 	elif tile != cell:
 		change_tile_sound.play()
-		tile_changed(cell, tile)
-	layer2.set_cell(map_position.x, map_position.y, tile)
+		tile_changed(Tile.Layer.PURPLE)
+	set_purple_cell(global_position, tile)
 
 
-func tile_changed(_old_tile: int, _new_tile: int):
+func tile_changed(layer: int):
 	pass
 	
 
-func get_tile(global_position: Vector2):
-	var layer2_cell = get_layer2_cell(global_position)
-	if layer2_cell >= 0:
-		return layer2_cell
-	
-	return get_layer1_cell(global_position)
+func get_tile(global_position: Vector2, layer: int):
+	match layer:
+		Tile.Layer.BASE:
+			return get_base_cell(global_position)
+		Tile.Layer.PURPLE:
+			return get_purple_cell(global_position)
+			
+
+func is_tile_set(global_position: Vector2, layer: int):
+	match layer:
+		Tile.Layer.BASE:
+			return false
+		Tile.Layer.PURPLE:
+			return get_purple_cell(global_position) == 2
 	
 
-func get_layer1_cell(global_position: Vector2):
-	var local_position = layer1.to_local(global_position)
-	var map_position = layer1.world_to_map(local_position)
-	return layer1.get_cell(map_position.x, map_position.y)
+func get_base_cell(global_position: Vector2):
+	var local_position = base_layer.to_local(global_position)
+	var map_position = base_layer.world_to_map(local_position)
+	return base_layer.get_cell(map_position.x, map_position.y)
 	
 
-func get_layer2_cell(global_position: Vector2):
-	var local_position = layer2.to_local(global_position)
-	var map_position = layer2.world_to_map(local_position)
-	return layer2.get_cell(map_position.x, map_position.y)
+func get_purple_cell(global_position: Vector2):
+	var local_position = purple_layer.to_local(global_position)
+	var map_position = purple_layer.world_to_map(local_position)
+	return purple_layer.get_cell(map_position.x, map_position.y)
+	
+
+func set_cell_2x2(global_position: Vector2, layer: TileMap, tile: int):
+	var local_position = layer.to_local(global_position)
+	var map_position = layer.world_to_map(local_position)
+	layer.set_cell(map_position.x - 1, map_position.y - 1, tile)
+	layer.set_cell(map_position.x, map_position.y - 1, tile)
+	layer.set_cell(map_position.x - 1, map_position.y, tile)
+	layer.set_cell(map_position.x, map_position.y, tile)
+	layer.update_bitmask_region(map_position - Vector2(-1, -1), map_position)
+
+
+func set_cell_3x3(global_position: Vector2, layer: TileMap, tile: int):
+	var local_position = layer.to_local(global_position)
+	var map_position = layer.world_to_map(local_position)
+	layer.set_cell(map_position.x - 1, map_position.y - 1, tile)
+	layer.set_cell(map_position.x, map_position.y - 1, tile)
+	layer.set_cell(map_position.x + 1, map_position.y - 1, tile)
+	layer.set_cell(map_position.x - 1, map_position.y, tile)
+	layer.set_cell(map_position.x, map_position.y, tile)
+	layer.set_cell(map_position.x + 1, map_position.y, tile)
+	layer.set_cell(map_position.x - 1, map_position.y + 1, tile)
+	layer.set_cell(map_position.x, map_position.y + 1, tile)
+	layer.set_cell(map_position.x + 1, map_position.y + 1, tile)
+	layer.update_bitmask_region(map_position - Vector2(-1, -1), map_position + Vector2(1, 1))
+	
+
+func set_purple_cell(global_position: Vector2, tile: int):
+	if tile == 2:
+		set_cell_2x2(global_position, purple_layer, tile)
+	else:
+		set_cell_3x3(global_position, purple_layer, tile)
+	
 
 
 func get_petri_dish(entities):
-	var size = layer1.get_used_rect().size
-	var tiles = []
-	for i in range(size.x):
-		tiles.append([])
-		for _j in range(size.y):
-			tiles[i].append(0)
+	#var size = layer1.get_used_rect().size
+	#var tiles = []
+	#for i in range(size.x):
+	#	tiles.append([])
+	#	for _j in range(size.y):
+	#		tiles[i].append(0)
 	
-	for entity in entities:
-		var local_position = layer1.to_local(entity.global_position)
-		var map_position = layer1.world_to_map(local_position) + (size / 2)
-		map_position = Vector2(floor(map_position.x), floor(map_position.y))
-		tiles[map_position.x][map_position.y] = entity.creature
-	
-	return tiles
+	#for entity in entities:
+	#	var local_position = layer1.to_local(entity.global_position)
+	#	var map_position = layer1.world_to_map(local_position) + (size / 2)
+	#	map_position = Vector2(floor(map_position.x), floor(map_position.y))
+	#	tiles[map_position.x][map_position.y] = entity.creature
+	#
+	return [[]]
 
 
 func all_tasks_done():
 	var close_lid_animation = $CloseLidAnimation
+	hide_hud()
 	close_lid_animation.start_animation()
 	yield(close_lid_animation, "done")
 	emit_signal("task_done")
-	print("level task done")
 
 
 func any_task_failed():
 	var burn_animation = $BurnAnimation
+	hide_hud()
 	burn_animation.start_animation()
 	yield(burn_animation, "done")
 	emit_signal("task_failed")
@@ -85,11 +200,18 @@ func any_task_failed():
 
 func reset_level():
 	var burn_animation = $BurnAnimation
+	hide_hud()
 	burn_animation.start_animation()
 	yield(burn_animation, "done")
 	emit_signal("reset")
+	
+
+func hide_hud():
+	get_parent().hud.visible = false
+	for task in get_tree().get_nodes_in_group("task"):
+		task.visible = false
 
 
 func _on_BurnAnimation_lid_down():
 	get_parent().entity_manager.visible = false
-	layer2.visible = false
+	#layer2.visible = false

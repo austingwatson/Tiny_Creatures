@@ -33,7 +33,7 @@ func update(_delta):
 
 
 func _on_EatTimer_timeout():
-	slime.level.set_tile(slime.global_position, Tile.NONE)
+	slime.level.set_tile_off(slime.global_position, Tile.Layer.PURPLE)
 	movement.direction = Vector2(rand_range(-1, 1), rand_range(-1, 1))
 	animated_sprite.play("reproduce")
 	reproduce_timer.start(slime_stats.get_random_reproduce_time())

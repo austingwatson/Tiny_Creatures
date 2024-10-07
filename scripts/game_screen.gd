@@ -95,9 +95,12 @@ func _on_HUD_amoeba_selected():
 	
 
 func _on_task_done():
-	print("gs task done")
+	if not is_instance_valid(self):
+		return
+	if not is_inside_tree():
+		return
 	var main = get_parent()
-	main.change_scene(main.Scene.TITLE_SCREEN)
+	main.change_scene(main.Scene.LEVEL_SELECT)
 
 
 func _on_task_failed():

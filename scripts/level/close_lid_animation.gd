@@ -7,6 +7,7 @@ onready var animation_player = $AnimationPlayer
 
 func start_animation():
 	animation_player.play("close")
+	Engine.time_scale = 1
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
