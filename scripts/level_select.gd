@@ -20,7 +20,7 @@ var max_levels = 5
 var animation_playing = false
 var mouse_in = false
 
-var names = ["Purple Task", "Green Task", "Red Task", "Yellow Task", "Sandbox"]
+var names = ["Purple Trial", "Green Trial", "Red Trial", "Yellow Trial", "Sandbox"]
 var descriptions = ["Purple", "Green", "Red", "Yellow", "Sandbox"]
 
 onready var petri_dish = $LevelSelect/PetriDish
