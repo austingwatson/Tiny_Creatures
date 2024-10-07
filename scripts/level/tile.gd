@@ -12,4 +12,6 @@ enum Layer {
 	BASE = 0,
 	PURPLE = 1,
 	GREEN = 2,
+	RED = 3,
+	YELLOW = 4,
 }

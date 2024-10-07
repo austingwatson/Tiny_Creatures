@@ -6,9 +6,9 @@ signal reset
 
 onready var base_layer = $BaseLayer
 onready var purple_layer = $PurpleLayer
-onready var green_layer = $PurpleLayer
-onready var red_layer = $PurpleLayer
-onready var yellow_layer = $PurpleLayer
+onready var green_layer = $GreenLayer
+onready var red_layer = $RedLayer
+onready var yellow_layer = $YellowLayer
 onready var new_tile_sound = $NewTileSound
 onready var change_tile_sound = $ChangeTileSound
 
@@ -91,12 +91,24 @@ func set_tile_on(global_position: Vector2, layer: int):
 	match layer:
 		Tile.Layer.PURPLE:
 			set_purple_tile(global_position, 2)
+		Tile.Layer.GREEN:
+			set_green_tile(global_position, 2)
+		Tile.Layer.RED:
+			set_red_tile(global_position, 2)
+		Tile.Layer.YELLOW:
+			set_yellow_tile(global_position, 2)
 
 
 func set_tile_off(global_position: Vector2, layer: int):
 	match layer:
 		Tile.Layer.PURPLE:
 			set_purple_tile(global_position, -1)
+		Tile.Layer.GREEN:
+			set_green_tile(global_position, -1)
+		Tile.Layer.RED:
+			set_red_tile(global_position, -1)
+		Tile.Layer.YELLOW:
+			set_yellow_tile(global_position, -1)
 			
 
 func set_purple_tile(global_position: Vector2, tile: int):
@@ -107,7 +119,40 @@ func set_purple_tile(global_position: Vector2, tile: int):
 	elif tile != cell:
 		change_tile_sound.play()
 		tile_changed(Tile.Layer.PURPLE)
-	set_purple_cell(global_position, tile)
+	set_cell_2x2(global_position, purple_layer, tile)
+	
+
+func set_green_tile(global_position: Vector2, tile: int):
+	var cell = get_green_cell(global_position)
+	if cell == Tile.Base.NONE:
+		new_tile_sound.play()
+		tile_changed(Tile.Layer.GREEN)
+	elif tile != cell:
+		change_tile_sound.play()
+		tile_changed(Tile.Layer.GREEN)
+	set_cell_2x2(global_position, green_layer, tile)
+	
+
+func set_red_tile(global_position: Vector2, tile: int):
+	var cell = get_red_cell(global_position)
+	if cell == Tile.Base.NONE:
+		new_tile_sound.play()
+		tile_changed(Tile.Layer.RED)
+	elif tile != cell:
+		change_tile_sound.play()
+		tile_changed(Tile.Layer.RED)
+	set_cell_2x2(global_position, red_layer, tile)
+	
+
+func set_yellow_tile(global_position: Vector2, tile: int):
+	var cell = get_yellow_cell(global_position)
+	if cell == Tile.Base.NONE:
+		new_tile_sound.play()
+		tile_changed(Tile.Layer.YELLOW)
+	elif tile != cell:
+		change_tile_sound.play()
+		tile_changed(Tile.Layer.YELLOW)
+	set_cell_2x2(global_position, yellow_layer, tile)
 
 
 func tile_changed(layer: int):
@@ -120,6 +165,12 @@ func get_tile(global_position: Vector2, layer: int):
 			return get_base_cell(global_position)
 		Tile.Layer.PURPLE:
 			return get_purple_cell(global_position)
+		Tile.Layer.GREEN:
+			return get_green_cell(global_position)
+		Tile.Layer.RED:
+			return get_red_cell(global_position)
+		Tile.Layer.YELLOW:
+			return get_yellow_cell(global_position)
 			
 
 func is_tile_set(global_position: Vector2, layer: int):
@@ -128,6 +179,12 @@ func is_tile_set(global_position: Vector2, layer: int):
 			return false
 		Tile.Layer.PURPLE:
 			return get_purple_cell(global_position) == 2
+		Tile.Layer.GREEN:
+			return get_green_cell(global_position) == 2
+		Tile.Layer.RED:
+			return get_red_cell(global_position) == 2
+		Tile.Layer.YELLOW:
+			return get_yellow_cell(global_position) == 2
 	
 
 func get_base_cell(global_position: Vector2):
@@ -140,6 +197,24 @@ func get_purple_cell(global_position: Vector2):
 	var local_position = purple_layer.to_local(global_position)
 	var map_position = purple_layer.world_to_map(local_position)
 	return purple_layer.get_cell(map_position.x, map_position.y)
+	
+
+func get_green_cell(global_position: Vector2):
+	var local_position = green_layer.to_local(global_position)
+	var map_position = green_layer.world_to_map(local_position)
+	return green_layer.get_cell(map_position.x, map_position.y)
+	
+
+func get_red_cell(global_position: Vector2):
+	var local_position = red_layer.to_local(global_position)
+	var map_position = red_layer.world_to_map(local_position)
+	return red_layer.get_cell(map_position.x, map_position.y)
+	
+
+func get_yellow_cell(global_position: Vector2):
+	var local_position = yellow_layer.to_local(global_position)
+	var map_position = yellow_layer.world_to_map(local_position)
+	return yellow_layer.get_cell(map_position.x, map_position.y)
 	
 
 func set_cell_2x2(global_position: Vector2, layer: TileMap, tile: int):
@@ -165,14 +240,6 @@ func set_cell_3x3(global_position: Vector2, layer: TileMap, tile: int):
 	layer.set_cell(map_position.x, map_position.y + 1, tile)
 	layer.set_cell(map_position.x + 1, map_position.y + 1, tile)
 	layer.update_bitmask_region(map_position - Vector2(-1, -1), map_position + Vector2(1, 1))
-	
-
-func set_purple_cell(global_position: Vector2, tile: int):
-	if tile == 2:
-		set_cell_2x2(global_position, purple_layer, tile)
-	else:
-		set_cell_3x3(global_position, purple_layer, tile)
-	
 
 
 func get_petri_dish(entities):
