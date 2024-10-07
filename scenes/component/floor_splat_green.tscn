@@ -17,6 +17,7 @@ region = Rect2( 0, 16, 8, 8 )
 [node name="floor_splat_green" type="Node2D"]
 
 [node name="medium_droplets" type="CPUParticles2D" parent="."]
+emitting = false
 amount = 3
 lifetime = 0.6
 explosiveness = 1.0
