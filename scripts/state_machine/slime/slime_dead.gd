@@ -21,5 +21,5 @@ func leave():
 
 func _on_Timer_timeout():
 	if leave_slime:
-		slime.level.set_tile(slime.global_position, Tile.SLIME)
+		slime.level.set_tile_on(slime.global_position, Tile.Layer.GREEN)
 	slime.queue_free()

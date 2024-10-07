@@ -29,7 +29,7 @@ func leave():
 
 func update(_delta):
 	movement.move_kinematic_body(slime)
-	if(slime.level.get_tile(slime.global_position) == Tile.SLUG_TRAIL):
+	if(slime.level.is_tile_set(slime.global_position, Tile.Layer.PURPLE)):
 		hunger.reset_hunger()
 		timer.stop()
 		state_machine.enter_state("Reproduce")

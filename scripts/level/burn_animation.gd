@@ -8,6 +8,7 @@ onready var animation_player = $AnimationPlayer
 
 func start_animation():
 	animation_player.play("drop")
+	Engine.time_scale = 1
 	
 
 func play_sound():

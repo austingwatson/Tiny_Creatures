@@ -22,6 +22,7 @@ func enter(_data):
 			movement.direction = Vector2.DOWN
 		3:
 			movement.direction = Vector2.RIGHT
+	movement.direction = Vector2(rand_range(-1, 1), rand_range(-1, 1))
 	timer.start(slug_stats.get_random_move_time())
 	
 	animated_sprite.play("move")
