@@ -17,12 +17,14 @@ region = Rect2( 0, 0, 8, 8 )
 [node name="floor_splat_purple" type="Node2D"]
 
 [node name="medium_droplets" type="CPUParticles2D" parent="."]
-amount = 3
+emitting = false
+amount = 2
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 texture = SubResource( 1 )
 emission_shape = 2
-emission_rect_extents = Vector2( 32, 8 )
+emission_rect_extents = Vector2( 8, 8 )
 direction = Vector2( 0, -1 )
 spread = 60.0
 gravity = Vector2( 0, 200 )
@@ -31,12 +33,14 @@ initial_velocity_random = 0.3
 damping = 2.0
 
 [node name="tiny_droplets" type="CPUParticles2D" parent="."]
-amount = 4
+emitting = false
+amount = 3
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 texture = SubResource( 2 )
 emission_shape = 2
-emission_rect_extents = Vector2( 32, 4 )
+emission_rect_extents = Vector2( 8, 8 )
 direction = Vector2( 0, -1 )
 spread = 60.0
 gravity = Vector2( 0, 200 )
@@ -46,12 +50,14 @@ angular_velocity = 120.0
 angular_velocity_random = 1.0
 
 [node name="big_droplets" type="CPUParticles2D" parent="."]
-amount = 2
+emitting = false
+amount = 1
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 texture = SubResource( 3 )
 emission_shape = 2
-emission_rect_extents = Vector2( 32, 4 )
+emission_rect_extents = Vector2( 8, 8 )
 direction = Vector2( 0, -1 )
 spread = 60.0
 gravity = Vector2( 0, 200 )
