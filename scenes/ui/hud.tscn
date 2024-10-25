@@ -1,8 +1,10 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/ui/hud.gd" type="Script" id=1]
 [ext_resource path="res://textures/entity/syringe_sheet.png" type="Texture" id=2]
 [ext_resource path="res://textures/ui/ui_sheet.png" type="Texture" id=3]
+[ext_resource path="res://textures/ui/Cinema.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://scenes/ui/bestiary.tscn" type="PackedScene" id=5]
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
@@ -112,6 +114,26 @@ region = Rect2( 320, 208, 48, 32 )
 atlas = ExtResource( 3 )
 region = Rect2( 224, 208, 48, 32 )
 
+[sub_resource type="DynamicFont" id=40]
+size = 8
+font_data = ExtResource( 4 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 3 )
+region = Rect2( 256, 192, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 3 )
+region = Rect2( 288, 192, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 3 )
+region = Rect2( 224, 192, 32, 16 )
+
+[sub_resource type="DynamicFont" id=44]
+size = 8
+font_data = ExtResource( 4 )
+
 [sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 3 )
 region = Rect2( 384, 192, 32, 16 )
@@ -160,7 +182,6 @@ anchor_bottom = 1.0
 margin_left = 11.0
 margin_top = -36.0
 margin_right = 187.0
-mouse_filter = 2
 custom_constants/separation = 16
 
 [node name="Slug" type="TextureProgress" parent="BottomPanel/Vials"]
@@ -267,6 +288,39 @@ texture_pressed = SubResource( 28 )
 texture_hover = SubResource( 30 )
 stretch_mode = 2
 
+[node name="Label" type="Label" parent="BottomPanel/Reset"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -65.5
+margin_top = -8.5
+margin_right = -25.5
+margin_bottom = 5.5
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = SubResource( 40 )
+text = "Reset"
+
+[node name="LevelSelect" type="TextureButton" parent="BottomPanel"]
+margin_left = 293.0
+margin_top = 16.0
+margin_right = 325.0
+margin_bottom = 32.0
+texture_normal = SubResource( 41 )
+texture_pressed = SubResource( 42 )
+texture_hover = SubResource( 43 )
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="BottomPanel/LevelSelect"]
+visible = false
+margin_left = -96.0
+margin_top = 4.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = SubResource( 44 )
+text = "Trial Select"
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 autostart = true
@@ -288,10 +342,17 @@ texture_normal = SubResource( 37 )
 texture_hover = SubResource( 38 )
 stretch_mode = 2
 
+[node name="Bestiary" parent="." instance=ExtResource( 5 )]
+
 [connection signal="gui_input" from="BottomPanel/Vials/Slug" to="." method="_on_Slug_gui_input"]
 [connection signal="gui_input" from="BottomPanel/Vials/Slime" to="." method="_on_Slime_gui_input"]
 [connection signal="gui_input" from="BottomPanel/Vials/Amoeba" to="." method="_on_Amoeba_gui_input"]
 [connection signal="gui_input" from="BottomPanel/Vials/ScaryBoy" to="." method="_on_ScaryBoy_gui_input"]
+[connection signal="mouse_entered" from="BottomPanel/Reset" to="." method="_on_Reset_mouse_entered"]
+[connection signal="mouse_exited" from="BottomPanel/Reset" to="." method="_on_Reset_mouse_exited"]
 [connection signal="pressed" from="BottomPanel/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="mouse_entered" from="BottomPanel/LevelSelect" to="." method="_on_LevelSelect_mouse_entered"]
+[connection signal="mouse_exited" from="BottomPanel/LevelSelect" to="." method="_on_LevelSelect_mouse_exited"]
+[connection signal="pressed" from="BottomPanel/LevelSelect" to="." method="_on_LevelSelect_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="pressed" from="SpeedSetting" to="." method="_on_SpeedSetting_pressed"]

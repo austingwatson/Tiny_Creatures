@@ -4,6 +4,8 @@ signal task_done
 signal task_failed
 signal reset
 
+var task_done = false
+
 onready var base_layer = $BaseLayer
 onready var purple_layer = $PurpleLayer
 onready var green_layer = $GreenLayer
@@ -20,13 +22,21 @@ func _ready():
 	$BurnAnimation.visible = true
 	$CloseLidAnimation.visible = true
 	
+	var size = base_layer.get_used_rect().size / 2
+	for i in range(-size.x, size.x):
+		for j in range(-size.y, size.y):
+			if base_layer.get_cell(i, j) == 2:
+				var killer_tile = preload("res://scenes/component/killer_tile.tscn").instance()
+				killer_tile.position = base_layer.map_to_world(Vector2(i, j)) + Vector2(8, 8)
+				add_child(killer_tile)
+	
 
 func _process(_delta):
 	fix_layer(purple_layer)
 	fix_layer(green_layer)
 	fix_layer(red_layer)
 	fix_layer(yellow_layer)
-				
+					
 
 func fix_layer(layer: TileMap):
 	var size = layer.get_used_rect().size / 2
@@ -122,6 +132,7 @@ func set_purple_tile(global_position: Vector2, tile: int):
 		change_tile_sound.play()
 		if tile == 2:
 			tile_set(Tile.Layer.PURPLE)
+			add_particle(global_position, preload("res://scenes/component/floor_splat_purple.tscn"), purple_layer)
 		elif tile == -1:
 			tile_unset(Tile.Layer.PURPLE)
 	set_cell_2x2(global_position, purple_layer, tile)
@@ -158,13 +169,21 @@ func set_yellow_tile(global_position: Vector2, tile: int):
 		elif tile == -1:
 			tile_unset(Tile.Layer.YELLOW)
 	set_cell_2x2(global_position, yellow_layer, tile)
+	
+
+func add_particle(global_position, particle_scene, layer):
+	var local_position = layer.to_local(global_position)
+	var map_position = layer.world_to_map(local_position)
+	var particle = particle_scene.instance()
+	particle.position = layer.map_to_world(map_position) + Vector2(8, 8)
+	add_child(particle)
 
 
-func tile_set(layer: int):
+func tile_set(_layer: int):
 	pass
 	
 
-func tile_unset(layer: int):
+func tile_unset(_layer: int):
 	pass
 	
 
@@ -251,7 +270,7 @@ func set_cell_3x3(global_position: Vector2, layer: TileMap, tile: int):
 	layer.update_bitmask_region(map_position - Vector2(-1, -1), map_position + Vector2(1, 1))
 
 
-func get_petri_dish(entities):
+func get_petri_dish(_entities):
 	#var size = layer1.get_used_rect().size
 	#var tiles = []
 	#for i in range(size.x):
@@ -269,6 +288,11 @@ func get_petri_dish(entities):
 
 
 func all_tasks_done():
+	if task_done:
+		return
+	task_done = true
+	
+	$Victory.play()
 	var close_lid_animation = $CloseLidAnimation
 	hide_hud()
 	close_lid_animation.start_animation()
@@ -300,4 +324,7 @@ func hide_hud():
 
 func _on_BurnAnimation_lid_down():
 	get_parent().entity_manager.visible = false
-	#layer2.visible = false
+	purple_layer.visible = false
+	green_layer.visible = false
+	red_layer.visible = false
+	yellow_layer.visible = false

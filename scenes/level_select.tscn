@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/level_select.gd" type="Script" id=1]
 [ext_resource path="res://textures/ui/ui_sheet.png" type="Texture" id=2]
 [ext_resource path="res://textures/ui/level_select_menu.png" type="Texture" id=3]
 [ext_resource path="res://scenes/level/petri_dish.tscn" type="PackedScene" id=4]
+[ext_resource path="res://sounds/music_chill_menu.wav" type="AudioStream" id=5]
+[ext_resource path="res://resources/font.tres" type="DynamicFont" id=6]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -18,6 +20,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 20 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Bubble:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 140, 74 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -36,6 +50,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 20 ), Vector2( 0, 30 ), Vector2( 0, 20 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Bubble:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 140, 74 ), Vector2( 140, 84 ), Vector2( 140, 74 ) ]
+}
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 13.0
@@ -52,6 +78,18 @@ region = Rect2( 176, 208, 16, 16 )
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 290, 110, 250 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 32, 192, 96 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 32, 192, 96 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 368, 0, 96, 48 )
 
 [node name="LevelSelect" type="Control"]
 anchor_right = 1.0
@@ -104,26 +142,71 @@ position = Vector2( 0, 20 )
 texture = SubResource( 1 )
 centered = false
 
-[node name="TaskName" type="Label" parent="."]
+[node name="TaskBG" type="Sprite" parent="."]
+position = Vector2( 240, 48 )
+texture = SubResource( 7 )
+
+[node name="TaskName" type="Label" parent="TaskBG"]
 anchor_right = 1.0
-margin_top = 70.0
-margin_bottom = 84.0
+anchor_bottom = 1.0
+margin_left = -96.0
+margin_top = -48.0
+margin_right = -96.0
+margin_bottom = -48.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
 text = "Purple Trial"
 align = 1
 valign = 1
 
-[node name="TaskDescription" type="Label" parent="."]
-anchor_top = 1.0
+[node name="DesBackground" type="Sprite" parent="."]
+position = Vector2( 240, 206 )
+texture = SubResource( 8 )
+
+[node name="TaskDescription" type="Label" parent="DesBackground"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 157.0
-margin_top = -100.0
-margin_right = -150.0
-margin_bottom = -20.0
+margin_left = -96.0
+margin_top = -48.0
+margin_right = -96.0
+margin_bottom = -48.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = ExtResource( 6 )
 text = "Fill Petri Dish with Purple Slime"
+align = 1
+valign = 1
 autowrap = true
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -15.0
+autoplay = true
+
+[node name="Bubble" type="Sprite" parent="."]
+visible = false
+position = Vector2( 140, 74 )
+texture = SubResource( 9 )
+
+[node name="Label" type="Label" parent="Bubble"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -24.0
+margin_right = -48.0
+margin_bottom = -24.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Success!"
+align = 1
+valign = 1
+
+[node name="Timer" type="Timer" parent="Bubble"]
+wait_time = 3.0
+one_shot = true
+autostart = true
 
 [connection signal="mouse_entered" from="LevelSelect/SelectArea" to="." method="_on_SelectArea_mouse_entered"]
 [connection signal="mouse_exited" from="LevelSelect/SelectArea" to="." method="_on_SelectArea_mouse_exited"]
 [connection signal="pressed" from="LeftArrow" to="." method="_on_LeftArrow_pressed"]
 [connection signal="pressed" from="RightArrow" to="." method="_on_RightArrow_pressed"]
+[connection signal="timeout" from="Bubble/Timer" to="." method="_on_Timer_timeout"]

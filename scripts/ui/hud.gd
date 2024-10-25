@@ -5,6 +5,7 @@ signal slime_selected
 signal amoeba_selected
 signal scary_boy_selected
 signal reset
+signal level_select
 
 const juice = preload("res://resources/juice/juice.tres")
 
@@ -45,6 +46,8 @@ onready var amoeba_label = $BottomPanel/Vials/Amoeba/Sticker/Label
 onready var scary_boy = $BottomPanel/Vials/ScaryBoy
 onready var scary_boy_label = $BottomPanel/Vials/ScaryBoy/Sticker/Label
 onready var speed_setting = $SpeedSetting
+onready var reset_label = $BottomPanel/Reset/Label
+onready var level_select_label = $BottomPanel/LevelSelect/Label
 
 
 func _ready():
@@ -137,3 +140,23 @@ func _on_SpeedSetting_pressed():
 			Engine.time_scale = 1
 			speed_setting.texture_normal = speed_setting1_normal
 			speed_setting.texture_hover = speed_setting1_hover
+
+
+func _on_Reset_mouse_entered():
+	reset_label.visible = true
+
+
+func _on_Reset_mouse_exited():
+	reset_label.visible = false
+
+
+func _on_LevelSelect_mouse_entered():
+	level_select_label.visible = true
+
+
+func _on_LevelSelect_mouse_exited():
+	level_select_label.visible = false
+
+
+func _on_LevelSelect_pressed():
+	emit_signal("level_select")

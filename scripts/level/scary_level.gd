@@ -23,7 +23,7 @@ func _ready():
 	
 
 func _process(_delta):
-	if goal1 and goal2:
+	if goal1 or goal2:
 		all_tasks_done()
 
 

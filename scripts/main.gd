@@ -15,13 +15,15 @@ func _ready():
 	add_child(title_screen.instance())
 	
 
-func change_scene(name, level_scene = null, camera_position = Vector2.ZERO, dropper_position = Vector2.ZERO):
+func change_scene(name, level_scene = null, camera_position = Vector2.ZERO, dropper_position = Vector2.ZERO, victory = false):
 	remove_child(get_child(0))
 	match name:
 		Scene.TITLE_SCREEN:
 			add_child(title_screen.instance())
 		Scene.LEVEL_SELECT:
-			add_child(level_select.instance())
+			var level_screen = level_select.instance()
+			level_screen.show_victory = victory
+			add_child(level_screen)
 		Scene.GAME_SCREEN:
 			var game_screen_scene = game_screen.instance()
 			game_screen_scene.level_scene = level_scene

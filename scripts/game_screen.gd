@@ -30,6 +30,7 @@ func _ready():
 	camera.limit_top = -foreground_size.y / 2
 
 	$TestPetriDish.visible = false
+	$Music.play()
 	
 
 func _input(event):
@@ -100,6 +101,7 @@ func _on_task_done():
 	if not is_inside_tree():
 		return
 	var main = get_parent()
+	Success.victory = true
 	main.change_scene(main.Scene.LEVEL_SELECT)
 
 
@@ -119,3 +121,8 @@ func _on_HUD_reset():
 func _on_level_reset():
 	var main = get_parent()
 	main.change_scene(main.Scene.GAME_SCREEN, level_scene, $Camera2D.position, dropper.global_position)
+
+
+func _on_HUD_level_select():
+	var main = get_parent()
+	main.change_scene(main.Scene.LEVEL_SELECT)

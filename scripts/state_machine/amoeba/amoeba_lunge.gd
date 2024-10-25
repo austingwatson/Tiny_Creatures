@@ -59,5 +59,5 @@ func _on_body_entered(body):
 	state_machine.enter_state("Reproduce")
 	
 	amoeba.level.set_tile_on(amoeba.global_position, Tile.Layer.RED)
-	for i in range(randi() % 5):
+	for _i in range(randi() % 5):
 		amoeba.level.set_tile_on(amoeba.global_position + Vector2(rand_range(-splat_range, splat_range), rand_range(-splat_range, splat_range)), Tile.Layer.RED)

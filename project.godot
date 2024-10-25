@@ -69,6 +69,7 @@ default_bus_layout="res://resources/default_bus_layout.tres"
 PackedScenes="*res://scripts/global/packed_scenes.gd"
 Tile="*res://scripts/level/tile.gd"
 SoundPlayer="*res://scenes/sound_player.tscn"
+Success="*res://scripts/global/success.gd"
 
 [debug]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/state_machine/state_machine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/state_machine/scary_boy/scary_boy_brain.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://scripts/state_machine/scary_boy/scary_boy_egg.gd" type="Script" id=4]
 [ext_resource path="res://scripts/state_machine/scary_boy/scary_boy_idle.gd" type="Script" id=5]
 [ext_resource path="res://scripts/state_machine/scary_boy/scary_boy_scare.gd" type="Script" id=6]
+[ext_resource path="res://scripts/state_machine/scary_boy/scary_boy_inflate.gd" type="Script" id=7]
+[ext_resource path="res://scripts/state_machine/scary_boy/scary_boy_dead.gd" type="Script" id=8]
 
 [node name="ScaryBoyBrain" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -14,6 +16,8 @@ show_state_name = false
 scary_boy = NodePath("")
 animated_sprite = NodePath("")
 scare = NodePath("")
+hunger = NodePath("")
+splat = NodePath("")
 
 [node name="Egg" parent="." index="1" instance=ExtResource( 3 )]
 script = ExtResource( 4 )
@@ -30,6 +34,20 @@ script = ExtResource( 6 )
 
 [node name="Timer" type="Timer" parent="Scare" index="0"]
 
+[node name="Inflate" parent="." index="4" instance=ExtResource( 3 )]
+script = ExtResource( 7 )
+
+[node name="Timer" type="Timer" parent="Inflate" index="0"]
+one_shot = true
+
+[node name="Dead" parent="." index="5" instance=ExtResource( 3 )]
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="Dead" index="0"]
+one_shot = true
+
 [connection signal="timeout" from="Egg/Timer" to="Egg" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Idle/Timer" to="Idle" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Scare/Timer" to="Scare" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Inflate/Timer" to="Inflate" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Dead/Timer" to="Dead" method="_on_Timer_timeout"]

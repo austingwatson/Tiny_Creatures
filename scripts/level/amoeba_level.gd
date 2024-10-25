@@ -7,7 +7,7 @@ onready var entity_manager = get_parent().entity_manager
 
 
 func _ready():
-	juice.init_juice(4, 10, 1, 0)
+	juice.init_juice(4, 10, 3, 0)
 	task.connect("task_done", self, "_on_task_done")
 	
 

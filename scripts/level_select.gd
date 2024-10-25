@@ -19,20 +19,23 @@ var current_level = CurrentLevel.SLUG_LEVEL
 var max_levels = 5
 var animation_playing = false
 var mouse_in = false
+var show_victory = false
 
 var names = ["Purple Trial", "Green Trial", "Red Trial", "Yellow Trial", "Sandbox"]
-var descriptions = ["Purple", "Green", "Red", "Yellow", "Sandbox"]
+var descriptions = ["Spread purple goo!", "Multiply green drooplets!", "Multiply red drooplets!", "Scare purple drooplets toward sides!", "Experiment with many drooplets!"]
 
 onready var petri_dish = $LevelSelect/PetriDish
 onready var petri_dish_animation_player = $LevelSelect/PetriDish.get_node("AnimationPlayer")
-onready var task_name = $TaskName
-onready var task_description = $TaskDescription
+onready var task_name = $TaskBG/TaskName
+onready var task_description = $DesBackground/TaskDescription
 
 
 func _ready():
 	$AnimationPlayer.play("bob_person")
 	task_name.text = names[current_level]
 	task_description.text = descriptions[current_level]
+	$Bubble.visible = Success.victory
+	Success.victory = false
 
 
 func _input(event):
@@ -112,3 +115,7 @@ func _on_RightArrow_pressed():
 	task_description.text = descriptions[current_level]
 	if mouse_in:
 		petri_dish_animation_player.play("open")
+
+
+func _on_Timer_timeout():
+	$Bubble.visible = false

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://textures/level/effect_sheet.png" type="Texture" id=1]
+[ext_resource path="res://scripts/component/floor_splat_yellow.gd" type="Script" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -15,10 +16,13 @@ atlas = ExtResource( 1 )
 region = Rect2( 0, 48, 8, 8 )
 
 [node name="floor_splat_yellow" type="Node2D"]
+script = ExtResource( 2 )
 
 [node name="medium_droplets" type="CPUParticles2D" parent="."]
+emitting = false
 amount = 3
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 texture = SubResource( 1 )
 emission_shape = 2
@@ -31,8 +35,10 @@ initial_velocity_random = 0.3
 damping = 2.0
 
 [node name="tiny_droplets" type="CPUParticles2D" parent="."]
+emitting = false
 amount = 4
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 texture = SubResource( 2 )
 emission_shape = 2
@@ -46,8 +52,10 @@ angular_velocity = 120.0
 angular_velocity_random = 1.0
 
 [node name="big_droplets" type="CPUParticles2D" parent="."]
+emitting = false
 amount = 2
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 texture = SubResource( 3 )
 emission_shape = 2

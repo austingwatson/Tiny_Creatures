@@ -8,3 +8,5 @@ speed = 0
 egg_time = Vector2( 5, 10 )
 idle_time = Vector2( 1, 2 )
 scare_time = Vector2( 1, 2 )
+inflate_time = Vector2( 5, 10 )
+dead_time = Vector2( 10, 20 )
