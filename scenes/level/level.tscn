@@ -172,5 +172,6 @@ visible = false
 
 [node name="Victory" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )
+volume_db = -20.0
 
 [connection signal="lid_down" from="BurnAnimation" to="." method="_on_BurnAnimation_lid_down"]

@@ -2,13 +2,18 @@ extends Node
 
 const juice = preload("res://resources/juice/juice.tres")
 
+export var camera_speed = 0
+
 var level_scene
 var level = null
+var camera_limit_hor = Vector2.ZERO
+var camera_limit_vert = Vector2.ZERO
 
 onready var entity_manager = $EntityManager
 onready var dropper = $Dropper
 onready var player_controls = $PlayerControls
 onready var hud = $HUD
+onready var camera = $Camera2D
 	
 
 func _ready():
@@ -23,17 +28,25 @@ func _ready():
 	dropper.switch_creature(-1)
 	
 	var foreground_size = level.get_node("Foreground").texture.get_size()
-	var camera = $Camera2D
-	camera.limit_left = -foreground_size.x / 2
-	camera.limit_right = foreground_size.x / 2
-	camera.limit_bottom = foreground_size.y / 2
-	camera.limit_top = -foreground_size.y / 2
+	camera_limit_hor = Vector2(-foreground_size.x / 4, foreground_size.x / 4)
+	camera_limit_vert = Vector2(-foreground_size.y / 4, foreground_size.y / 4)
+	#camera.limit_left = -foreground_size.x / 2
+	#camera.limit_right = foreground_size.x / 2
+	#camera.limit_bottom = foreground_size.y / 2
+	#camera.limit_top = -foreground_size.y / 2
 
 	$TestPetriDish.visible = false
 	$Music.play()
 	
 
 func _input(event):
+	if event.is_action_released("speed1"):
+		hud.set_speed_setting(1)
+	elif event.is_action_released("speed2"):
+		hud.set_speed_setting(2)
+	elif event.is_action_released("speed3"):
+		hud.set_speed_setting(3)
+	
 	if not OS.is_debug_build():
 		return
 	
@@ -51,18 +64,27 @@ func _input(event):
 		$TestPetriDish.tiles = $Level.get_petri_dish($EntityManager.get_children())
 		$TestPetriDish.redraw()
 		$TestPetriDish.visible = not $TestPetriDish.visible
-	elif event.is_action_released("speed1"):
-		Engine.time_scale = 1
-	elif event.is_action_released("speed2"):
-		Engine.time_scale = 3
-	elif event.is_action_released("speed3"):
-		Engine.time_scale = 6
 	elif event.is_action_released("speed_doom"):
 		Engine.time_scale = 20
 	elif not $Camera2D.current and event.is_action_pressed("follow"):
 		$Camera2D.current = true
 	elif event.is_action_released("test_fail"):
 		level.any_task_failed()
+		
+	
+func _process(delta):
+	var camera_direction = Input.get_vector("camera_left", "camera_right", "camera_up", "camera_down")
+	camera.position += camera_direction * camera_speed * delta
+	
+	if camera.position.x <= camera_limit_hor.x:
+		camera.position.x = camera_limit_hor.x
+	elif camera.position.x >= camera_limit_hor.y:
+		camera.position.x = camera_limit_hor.y
+	
+	if camera.position.y <= camera_limit_vert.x:
+		camera.position.y = camera_limit_vert.x
+	elif camera.position.y >= camera_limit_vert.y:
+		camera.position.y = camera_limit_vert.y
 
 
 func _on_PlayerControls_selected_creature(creature):

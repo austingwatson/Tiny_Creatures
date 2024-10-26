@@ -90,6 +90,22 @@ func drop_creature():
 	scary_boy.max_value = juice.scary_boy_max
 	scary_boy.value = juice.scary_boy
 	scary_boy_label.text = str(juice.scary_boy)
+	
+
+func set_speed_setting(speed_setting):
+	match speed_setting:
+		1:
+			Engine.time_scale = 1
+			self.speed_setting.texture_normal = speed_setting1_normal
+			self.speed_setting.texture_hover = speed_setting1_hover
+		2:
+			Engine.time_scale = 3
+			self.speed_setting.texture_normal = speed_setting2_normal
+			self.speed_setting.texture_hover = speed_setting2_hover
+		3:
+			Engine.time_scale = 6
+			self.speed_setting.texture_normal = speed_setting3_normal
+			self.speed_setting.texture_hover = speed_setting3_hover
 
 
 func _on_Timer_timeout():
@@ -124,22 +140,10 @@ func _on_Reset_pressed():
 
 
 func _on_SpeedSetting_pressed():
-	match current_speed_setting:
-		1:
-			current_speed_setting = 2
-			Engine.time_scale = 3
-			speed_setting.texture_normal = speed_setting2_normal
-			speed_setting.texture_hover = speed_setting2_hover
-		2:
-			current_speed_setting = 3
-			Engine.time_scale = 6
-			speed_setting.texture_normal = speed_setting3_normal
-			speed_setting.texture_hover = speed_setting3_hover
-		3:
-			current_speed_setting = 1
-			Engine.time_scale = 1
-			speed_setting.texture_normal = speed_setting1_normal
-			speed_setting.texture_hover = speed_setting1_hover
+	current_speed_setting += 1
+	if current_speed_setting > 3:
+		current_speed_setting = 1
+	set_speed_setting(current_speed_setting)
 
 
 func _on_Reset_mouse_entered():
