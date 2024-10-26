@@ -13,8 +13,10 @@ colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 0 )
 [node name="Scared_particles" type="Node2D"]
 
 [node name="Exclamation" type="CPUParticles2D" parent="."]
+emitting = false
 amount = 1
 lifetime = 2.0
+one_shot = true
 texture = SubResource( 1 )
 direction = Vector2( 0, -1 )
 spread = 0.0
