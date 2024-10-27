@@ -1,20 +1,63 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://textures/ui/ui_sheet.png" type="Texture" id=2]
 [ext_resource path="res://scripts/ui/bestiary.gd" type="Script" id=3]
+[ext_resource path="res://textures/ui/purple_portrait.png" type="Texture" id=4]
+[ext_resource path="res://textures/ui/red_portrait.png" type="Texture" id=5]
+[ext_resource path="res://textures/ui/yellow_portrait.png" type="Texture" id=6]
+[ext_resource path="res://textures/ui/green_portrait.png" type="Texture" id=7]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pages:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 480, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "open_book"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pages:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 480, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
-region = Rect2( 241, 1, 30, 30 )
+region = Rect2( 32, 80, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
-region = Rect2( 416, 64, 48, 96 )
+region = Rect2( 480, 0, 480, 208 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 336, 192, 16, 16 )
+region = Rect2( 368, 0, 96, 48 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 480, 320, 464, 112 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 80, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
@@ -29,21 +72,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 3 )
-names = [ "purple", "green", "red", "yellow" ]
-descriptions = [ "purple description", "green description", "red description", "yellow description" ]
+names = [ "Purple Drooplet", "Green Drooplet", "Red Drooplet", "Yellow Drooplet" ]
+purple_icon = ExtResource( 4 )
+green_icon = ExtResource( 7 )
+red_icon = ExtResource( 5 )
+yellow_icon = ExtResource( 6 )
+descriptions = [ "Creates a trail of symbiotic nutrient slime. Self sustaining and ignored by other drooplets. Wanders randomly and does not naturally reproduce.", "Multiplies rapidly and can also spread its slime on sterile spaces. Eats purple slime and grows larger before bursting into two immature drooplets and a puddle of slime. Starves without nutrients. ", "Aggressive. Hunts green drooplets and consumes them in order to reproduce. Spreads red slime when it absorbs prey. Starves without nutrients.", "Alarming. Drives other drooplets away when flailing. Moves very slowly. Inflates over time until it bursts. Does not eat." ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 10 )
+anims/open_book = SubResource( 11 )
 
 [node name="Book" type="HBoxContainer" parent="."]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -15.0
-margin_right = 86.0
-margin_bottom = 15.0
+margin_left = 4.0
+margin_top = -58.0
+margin_right = 90.0
+margin_bottom = -42.0
 mouse_filter = 2
 
 [node name="Background" type="TextureButton" parent="Book"]
-margin_right = 30.0
-margin_bottom = 30.0
-texture_normal = SubResource( 1 )
+margin_right = 16.0
+margin_bottom = 16.0
+texture_normal = SubResource( 8 )
 stretch_mode = 2
 
 [node name="HoverText" type="Label" parent="Book"]
@@ -59,50 +111,101 @@ align = 1
 valign = 1
 
 [node name="Pages" type="TextureRect" parent="."]
-visible = false
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -48.0
-margin_right = 48.0
-margin_bottom = 48.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 240.0
+margin_right = 720.002
+margin_bottom = 208.0
 mouse_filter = 2
 texture = SubResource( 2 )
 stretch_mode = 3
 
-[node name="Name" type="Label" parent="Pages"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 29.0
-margin_bottom = 18.0
-text = "Purple"
-clip_text = true
-
-[node name="Text" type="Label" parent="Pages"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Pages"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 19.0
-margin_right = -4.0
-margin_bottom = -12.0
-custom_fonts/font = ExtResource( 1 )
-text = "Desription of drooplet"
-autowrap = true
-clip_text = true
+margin_bottom = 10.0
+custom_constants/separation = 5
 
-[node name="Close" type="TextureButton" parent="Pages"]
-margin_left = 29.0
-margin_top = 3.0
-margin_right = 45.0
-margin_bottom = 19.0
-texture_normal = SubResource( 3 )
+[node name="NameBackground" type="TextureRect" parent="Pages/VBoxContainer"]
+margin_right = 480.0
+margin_bottom = 48.0
+texture = SubResource( 6 )
+stretch_mode = 4
+
+[node name="Name" type="Label" parent="Pages/VBoxContainer/NameBackground"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 196.0
+margin_right = -195.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "Purple"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="IconBackground" type="TextureRect" parent="Pages/VBoxContainer"]
+margin_top = 53.0
+margin_right = 480.0
+margin_bottom = 101.0
+texture = SubResource( 6 )
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="Pages/VBoxContainer/IconBackground"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 4 )
+stretch_mode = 4
+
+[node name="TextBackground" type="TextureRect" parent="Pages/VBoxContainer"]
+margin_top = 106.0
+margin_right = 480.0
+margin_bottom = 218.0
+texture = SubResource( 7 )
+stretch_mode = 4
+
+[node name="Text" type="Label" parent="Pages/VBoxContainer/TextBackground"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = 6.0
+margin_right = -12.0
+margin_bottom = -36.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "Creates a trail of symbiotic nutrient slime. Self sustaining and ignored by other drooplets. Wanders randomly and does not naturally reproduce."
+align = 1
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Pages"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -476.002
+margin_top = 77.0
+margin_right = -406.002
+margin_bottom = 93.0
+
+[node name="Close" type="TextureButton" parent="Pages/HBoxContainer"]
+margin_right = 16.0
+margin_bottom = 16.0
+texture_normal = SubResource( 9 )
 stretch_mode = 2
+
+[node name="Label" type="Label" parent="Pages/HBoxContainer"]
+margin_left = 20.0
+margin_top = 3.0
+margin_right = 70.0
+margin_bottom = 12.0
+custom_colors/font_color = Color( 0.0823529, 0.0745098, 0.109804, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "Close"
 
 [node name="PrevPage" type="TextureButton" parent="Pages"]
 visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 3.0
-margin_top = -12.0
+margin_left = 6.0
+margin_top = -14.0
 margin_right = 17.0
 margin_bottom = -4.0
 texture_normal = SubResource( 4 )
@@ -115,8 +218,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -17.0
-margin_top = -12.0
+margin_left = -20.0
+margin_top = -15.0
 margin_right = -3.0
 margin_bottom = -4.0
 texture_normal = SubResource( 4 )
@@ -126,6 +229,8 @@ stretch_mode = 2
 [connection signal="mouse_entered" from="Book/Background" to="." method="_on_Background_mouse_entered"]
 [connection signal="mouse_exited" from="Book/Background" to="." method="_on_Background_mouse_exited"]
 [connection signal="pressed" from="Book/Background" to="." method="_on_Book_pressed"]
-[connection signal="pressed" from="Pages/Close" to="." method="_on_Close_pressed"]
+[connection signal="mouse_entered" from="Pages/HBoxContainer/Close" to="." method="_on_Close_mouse_entered"]
+[connection signal="mouse_exited" from="Pages/HBoxContainer/Close" to="." method="_on_Close_mouse_exited"]
+[connection signal="pressed" from="Pages/HBoxContainer/Close" to="." method="_on_Close_pressed"]
 [connection signal="pressed" from="Pages/PrevPage" to="." method="_on_PrevPage_pressed"]
 [connection signal="pressed" from="Pages/NextPage" to="." method="_on_NextPage_pressed"]
